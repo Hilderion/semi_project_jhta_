@@ -1,0 +1,21 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.ItemQuestion;
+
+public class MyPageDao {
+
+	private static MyPageDao self = new MyPageDao();
+	private MyPageDao() {}
+	public static MyPageDao getInstance() {
+		return self;
+	}
+	
+	public List<ItemQuestion> getMyBoardByNo(int userno) throws SQLException{
+		List<ItemQuestion> items = SqlMapClientUtil.getSqlMapClient().queryForList("getMyBoardByNo", userno);
+		return items;
+	} 
+}

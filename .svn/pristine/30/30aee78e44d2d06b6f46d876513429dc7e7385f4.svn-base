@@ -1,0 +1,17 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class test {
+
+	public static void main(String[] args) throws SQLException {
+		String a = "1,2,3,4,";
+		
+		String[] b = a.split(",");
+		System.out.println(b.length);
+	}
+	
+	
+}

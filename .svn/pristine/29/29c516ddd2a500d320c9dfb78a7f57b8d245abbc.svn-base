@@ -1,0 +1,23 @@
+package kr.co.team2.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+
+@Controller
+public class MypageController {
+	
+	
+	@RequestMapping("/mypage/home.do")
+	public ModelAndView MyPageMainHome(HttpServletRequest request, HttpServletResponse response) {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("mypage/mypagehome.jsp");
+		
+		return mav;
+		
+	}
+}

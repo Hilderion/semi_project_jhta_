@@ -1,0 +1,82 @@
+package kr.co.team2.controller;
+
+import java.util.List;
+
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.sun.media.sound.ModelAbstractChannelMixer;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.ItemDao;
+import kr.co.team2.vo.Criteria;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.Option;
+
+@Controller
+public class StoreController {
+		
+	ItemDao itemDao = ItemDao.getInstance();
+	
+	@RequestMapping("/stores/list.do")
+	public ModelAndView getItemsByCategoryNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int cp = 1; 
+		int rows = 5;
+		String target = request.getParameter("target");
+		String sort = request.getParameter("sort");
+		
+		try {
+			cp = Integer.parseInt(request.getParameter("cp"));
+			rows = Integer.parseInt(request.getParameter("rows"));
+		} catch (Exception e) {}
+		
+		Criteria criteria = new Criteria();
+		criteria.setBeginIndex((cp-1)*rows + 1);
+		criteria.setEndIndex(cp*rows);
+		criteria.setSort(sort);
+		criteria.setTarget(target);
+		
+		
+		List<Item> items = itemDao.getItemsByCategoryNo();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("items", items);
+		mav.setViewName("stores/list.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/stores/detail.do")
+	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String selColor = request.getParameter("selColor");
+		String selSize = request.getParameter("selSize");
+		
+		ItemDao itemDao = ItemDao.getInstance();
+		Item item = itemDao.getItemByItemNo();
+		List<Option> optionz = itemDao.getItemOptionByItemNo();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("item", item);
+		mav.addAttribute("optionz", optionz);
+		
+		if(selColor != null && !selColor.equals("")) {
+			mav.addAttribute("selColor", selColor);
+			List<Option> sizeList = itemDao.getItemSizeByItemNo(selColor);
+			mav.addAttribute("sizeList", sizeList);
+		}
+		
+		if(selSize != null && !selSize.equals("")) {
+			mav.addAttribute("selSize", selSize);
+			List<Option> size = itemDao.getItemSizeBySelected(selSize);
+			mav.addAttribute("size", size);
+		}
+		
+		mav.setViewName("stores/detail.jsp");
+		return mav;
+	}
+}

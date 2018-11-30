@@ -1,0 +1,23 @@
+package kr.co.team2.vo;
+
+public class monthlySales {
+	private String careteDate;
+	private Long monthlySales;
+
+	public String getCareteDate() {
+		return careteDate;
+	}
+
+	public void setCareteDate(String careteDate) {
+		this.careteDate = careteDate;
+	}
+
+	public Long getMonthlySales() {
+		return monthlySales;
+	}
+
+	public void setMonthlySales(Long monthlySales) {
+		this.monthlySales = monthlySales;
+	}
+
+}

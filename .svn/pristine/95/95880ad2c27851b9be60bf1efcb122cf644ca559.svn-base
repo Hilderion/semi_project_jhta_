@@ -1,0 +1,21 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+
+public class adminOrderDao {
+
+	private adminOrderDao() {}
+	private static adminOrderDao instance;
+	public static adminOrderDao getInstance() {
+		if(instance == null) {
+			instance = new adminOrderDao();
+		}
+		return instance;
+	}
+	//장바구니 삭제
+	public void deleteCart(int optNo) throws SQLException{
+		SqlMapClientUtil.getSqlMapClient().delete("deleteCart",optNo);
+	}
+}

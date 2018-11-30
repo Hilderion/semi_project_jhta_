@@ -1,0 +1,79 @@
+package kr.co.team2.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.JSONView;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.ReviewDao;
+import kr.co.team2.vo.AllReviews;
+import kr.co.team2.vo.Review;
+
+@Controller
+public class ReviewController {
+
+	@RequestMapping("/reviews/allreview.do")
+	public ModelAndView allReview(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		ReviewDao reviewDao = ReviewDao.getInstance();
+		
+		List<AllReviews> allReviews = reviewDao.getAllAllReviews();
+		
+		// TODO : 최고 3개까지만 담도록..
+		for(AllReviews allReview : allReviews) {
+			
+			List<Review> reviews = reviewDao.getAllReviewsByItemNo(allReview.getNo());
+
+			allReview.setReviews(reviews);
+		}
+		request.setAttribute("allReviews", allReviews);
+		
+		mav.setViewName("reviews/allreview.jsp");
+		return mav;
+		
+	}
+
+	@RequestMapping("/reviews/bestreview.do")
+	public ModelAndView bestReview(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("reviews/bestreview.jsp");
+		return mav;
+		
+	}
+	
+	@RequestMapping("/reviews/photoreview.do")
+	public ModelAndView photoReview(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		ReviewDao reviewDao = ReviewDao.getInstance();
+		
+		// 모든 포토 리뷰 조회
+		List<Review> photoReviews = reviewDao.getAllPhotoReviews();
+		request.setAttribute("photoReviews", photoReviews);
+		
+		mav.setViewName("reviews/photoreview.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/reviews/detail.do")
+	public ModelAndView photoReviewDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		ReviewDao reviewDao = ReviewDao.getInstance();
+		
+		int reviewNo = Integer.parseInt(request.getParameter("reviewNo"));
+		// AJAX 데이터 추가
+		mav.addAttribute("reviewJSON", reviewDao.getPhotoReviewsByNo(reviewNo));
+		mav.setView(new JSONView());
+		
+		return mav;
+	}
+
+}

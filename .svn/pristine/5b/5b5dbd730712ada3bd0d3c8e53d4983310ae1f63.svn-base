@@ -1,0 +1,159 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="../../../../resources/admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="../../../../resources/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+<link href="../../../../resources/admin/vendor/datatables/dataTables.bootstrap4.css"
+	rel="stylesheet">
+<link href="../../../../resources/admin/css/sb-admin.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet">
+ <style>.text-stick{margin: 0px;padding: 0px;border: 0px;}</style>
+
+<title>Insert title here</title>
+</head>
+<body>
+<%@include file="../include/header.jsp" %>
+	
+	 <div id="content-wrapper" style="max-width: 1000px;" class="pull-center">
+            <div class="container-fluid">
+
+                <!-- Breadcrumbs-->
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="#">Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item active">Tables</li>
+                </ol>
+
+                <div class="card">
+                    <div class="card-header">상품 조회</div>
+                    <div class="card-body">
+                       <div class="ml-5 mr-5">
+                        <form class="form-group">
+                            <div class="form-item">
+                                <label>검색</label>
+                                <select class="form-control">
+                                    <option value="a" selected>전체</option>
+                                    <option value="a">이름</option>
+                                    <option value="a">번호</option>
+                                    <option value="a">주소</option>
+                                    <option value="a">등록</option>
+                                </select><br>
+                            </div>
+                                 <div class="input-group">
+                <input type="text" class="form-control" placeholder="검색" aria-label="table-search" aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <button class="btn " type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+                        </form>
+                        </div>
+                        <hr>
+                        
+                        <div class="table-responsive" >
+                            <table class="table table-bordered table-sm"  width="100%" cellspacing="0" style="font-size: 13px;">
+                                <!-- id에 js에서 설정한 값-->
+                                   
+                            <colgroup>
+                                <col width="10%">
+                                <col width="30%">
+                                <col width="20%">
+                                <col width="10%">
+                                <col width="10%">
+                                <col width="15%">
+                            </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th style="min-width: 150px">상품명</th>
+                                        <th>판매가</th>
+                                        <th>할인율</th>
+                                        <th>재고</th>
+                                        <th>등록일</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>상품명</th>
+                                        <th>판매가</th>
+                                        <th>할인율</th>
+                                        <th>재고</th>
+                                        <th>등록일</th>
+                                    </tr>
+                                </tfoot>
+                                <tbody>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                             <img src="img/sample.jpg" width="57px" height="57px;" style="border: 1px solid silver;padding: 2px;" class="float-left"/>
+                                             <ul style="list-style: none;margin-left: 27px; margin-bottom: 0px">
+                                             <li>상품명</li>
+                                             <li class="text-primary">- 색상 : 핑크</li>
+                                             <li class="text-primary">- 사이즈 : FREE </li>
+                                             </ul>
+                                        </td>
+                                        <td>32,000원</td>
+                                        <td>10%</td>
+                                        <td>100개</td>
+                                        <td>2017-10-19</td>
+                                    </tr>
+                                     <tr>
+                                        <td>2</td>
+                                        <td>
+                                             <img src="img/sample.jpg" width="57px" height="57px;" style="border: 1px solid silver;padding: 2px;" class="float-left"/>
+                                             <ul style="list-style: none;margin-left: 27px; margin-bottom: 0px">
+                                             <li>상품명</li>
+                                             <li>옵션</li>
+                                             <li>ss</li>
+                                             </ul>
+                                        </td>
+                                        <td>32,000원</td>
+                                        <td>10%</td>
+                                        <td>100개</td>
+                                        <td>2017-10-19</td>
+                                    </tr>
+                                     <tr>
+                                        <td>2</td>
+                                        <td>
+                                             <img src="img/sample.jpg" width="57px" height="57px;" style="border: 1px solid silver;padding: 2px;" class="float-left"/>
+                                             <ul style="list-style: none;margin-left: 27px; margin-bottom: 0px">
+                                             <li>상품명</li>
+                                             <li>옵션</li>
+                                             <li>ss</li>
+                                             </ul>
+                                        </td>
+                                        <td>32,000원</td>
+                                        <td>10%</td>
+                                        <td>100개</td>
+                                        <td>2017-10-19</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--카드 끝-->
+ <div class="card" style="width:100px; margin: 0px;display: none">
+  <img class="card-img-top" src="img/sample.jpg" alt="Card image" height="100px">
+  <div class="card-body">
+  <p>sa</p>
+  <p>sa</p>
+  </div>
+</div>
+                
+            </div>
+            <!--컨테이너 끝-->
+        </div>
+        <!--컨텐츠 끝-->
+
+<%@include file="../include/footer.jsp" %>
+</body>
+</html>

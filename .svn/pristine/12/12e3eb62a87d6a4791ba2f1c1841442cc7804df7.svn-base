@@ -1,0 +1,195 @@
+package kr.co.team2.controller;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.oreilly.servlet.MultipartRequest;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.ItemQuestionDao;
+import kr.co.team2.vo.ItemQuestion;
+import kr.co.team2.vo.ItemQuestionComment;
+import kr.co.team2.vo.ItemQuestionType;
+import kr.co.team2.vo.User;
+
+@Controller
+public class ItemBoardController {
+
+	@RequestMapping("/itemBoard/list.do")
+	public ModelAndView BoardList(HttpServletRequest request, HttpServletResponse response) throws SQLException{
+		
+		ModelAndView mav = new ModelAndView();
+		
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		List<ItemQuestion> boards = itemQuestionDao.getBoardListAll();
+		//카테고리 TYPE불러오기
+		List<ItemQuestionType> types = itemQuestionDao.getquestionByCategoryType();
+	
+		mav.addAttribute("types", types);
+		mav.addAttribute("boards", boards);
+		mav.setViewName("itemboard/boardlist.jsp");
+		
+		
+		return mav;
+	}
+	
+	@RequestMapping("/itemBoard/form.do")
+	public ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws SQLException{
+		
+		ModelAndView mav = new ModelAndView();
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		//카테고리 TYPE불러오기
+		List<ItemQuestionType> types = itemQuestionDao.getquestionByCategoryType();
+			
+		mav.addAttribute("types", types);
+		
+		mav.setViewName("itemboard/form.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/itemBoard/add.do")
+	public ModelAndView add(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		
+		ModelAndView mav= new ModelAndView();
+		/*
+		HttpSession session = request.getSession();
+		User loginedUser = (User) session.getAttribute("LOGIN_USER_INFO");
+		if(loginedUser == null) {
+			mav.setViewName("redirect:/users/loginform.do");
+			return mav;
+		}
+		*/
+		String saveDirectory = "c:/itemBoard_files";
+		int maxPostSize = 1024*1024*100;
+		String encoding = "utf-8";
+		
+		MultipartRequest mr = new MultipartRequest(request, saveDirectory, maxPostSize, encoding);
+		String title = mr.getParameter("title");
+		String content = mr.getParameter("contents");
+		String secret = mr.getParameter("secret");
+		String filename = mr.getFilesystemName("upfile");
+		
+		User loginedUser = new User();
+		loginedUser.setNo(1);
+		loginedUser.setName("KYH");
+		
+		ItemQuestion itemQuestion = new ItemQuestion();
+		itemQuestion.setTitle(title);
+		itemQuestion.setContents(content);
+		itemQuestion.setSecret(secret);
+		itemQuestion.setFilename(filename);
+		itemQuestion.setUser(loginedUser);
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		itemQuestionDao.addItemQuestion(itemQuestion);
+		
+		//자바에서 이미지를 여러개 담을 수 있는 리스트를 만든다.
+		
+		
+		/*
+		 * Enumeration<E> en = mr.getFileNames();
+		while(en.hasMoreElements()){
+			String filename = (String) en.nextElement();
+			
+			Image image = new Imgae();
+			image.setFileaname();
+			images.add(image);
+		}
+		 */
+		
+		mav.setViewName("redirect:list.do");
+		
+		return mav;
+	}
+	
+	//게시판 상세정보
+	@RequestMapping("/itemBoard/detail.do")
+	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		int boardno = Integer.parseInt(request.getParameter("boardno"));
+		ModelAndView mav= new ModelAndView();
+		
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		ItemQuestion board = itemQuestionDao.getBoardByNo(boardno);
+		String secret = board.getSecret();
+		String url=null;
+		int userno=1;
+		//공개글
+		if("S".equals(secret.toUpperCase())) {
+			//세션과 아이디 비교
+			if(board.getUser().getNo() == userno) {
+				url = "itemboard/detail.jsp?boardno="+boardno;
+			}else {
+				url = "redirect:/itemBoard/list.do?fail=secret";
+			}
+		}else if("P".equals(secret.toUpperCase())) {
+			url = "itemboard/boardlist.jsp?boardno="+boardno;
+		}
+		//댓글 붙이기...
+		List<ItemQuestionComment> comments = itemQuestionDao.getItemQuestionComment();
+		int commentCount = itemQuestionDao.getCommentCount();
+		
+		mav.addAttribute("commentCount", commentCount);
+		mav.addAttribute("comments", comments);
+		mav.addAttribute("board", board);
+		mav.setViewName(url);
+		return mav;
+	}
+	
+	//게시판 상세글 수정
+	@RequestMapping("/itemBoard/modify.do")
+	public ModelAndView modify(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		int boardno = Integer.parseInt(request.getParameter("boardno"));
+		ModelAndView mav= new ModelAndView();
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		List<ItemQuestionType> types = itemQuestionDao.getquestionByCategoryType();
+		mav.addAttribute("types", types);
+		//mav.setViewName("itemboard/detail.jsp?no="+boardno);
+		mav.setViewName("itemboard/modify.jsp");
+		return mav;
+	}
+	
+	//게시판 삭제
+	@RequestMapping("/itemBoard/delete.do")
+	public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		int boardno = Integer.parseInt(request.getParameter("boardno"));
+		ModelAndView mav= new ModelAndView();
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		ItemQuestion itemQuestion = new ItemQuestion();
+		itemQuestionDao.UpdateItemQuestion(itemQuestion);
+		mav.setViewName("redirect:list.do");
+		return mav;
+	}
+	
+	//댓글 
+	@RequestMapping("/itemBoard/comment.do")
+	public ModelAndView comment(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		int boardno = Integer.parseInt(request.getParameter("boardno"));
+		String commentText = request.getParameter("commentText");
+		System.out.println(commentText);
+		
+		ItemQuestion itemQuestion = new ItemQuestion();
+		itemQuestion.setNo(boardno);
+		
+		ItemQuestionComment comment = new ItemQuestionComment();
+		comment.setItemQuestion(itemQuestion);
+		comment.setContents(commentText);
+		
+		ModelAndView mav= new ModelAndView();
+		
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		
+		itemQuestionDao.addItemQuestionComment(comment);
+		mav.setViewName("redirect:detail.do?boardno="+boardno);
+		
+		return mav;
+	}
+	
+
+}

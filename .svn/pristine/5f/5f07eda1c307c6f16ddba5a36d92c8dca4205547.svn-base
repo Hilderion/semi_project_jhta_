@@ -1,0 +1,97 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.KeywordSearchDao;
+import kr.co.team2.vo.Criteria;
+import kr.co.team2.vo.Item;
+@Controller
+public class MenuController {
+	
+	@RequestMapping("/menu/search.do")
+	public ModelAndView search(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		System.out.println("검색");
+		ModelAndView mav = new ModelAndView();
+		
+		
+		String category = request.getParameter("category");
+		
+		String opt = request.getParameter("opt");
+		String keyword = request.getParameter("keyword");
+		
+		String minPrice = request.getParameter("minprice");
+		String maxPrice = request.getParameter("maxprice");
+		String orderBox = request.getParameter("orders");
+		/*if(opt ==null && opt.isEmpty()) {
+			opt = "itemName";
+		}*/
+		
+		
+		Criteria criteria = new Criteria();
+		criteria.setSort(orderBox);
+		
+		
+		if(keyword != null && !keyword.isEmpty()) {
+			criteria.setKeyword(keyword);
+			criteria.setOpt(opt);
+			
+		}
+		
+		if(category != null && !category.isEmpty()) {
+			criteria.setNo(Integer.parseInt(category));
+		}
+		if((minPrice != null && !minPrice.isEmpty()) && (maxPrice !=null && !maxPrice.isEmpty())) {
+			criteria.setMinPrice(Integer.parseInt(minPrice));
+			criteria.setMaxPrice(Integer.parseInt(maxPrice));
+		}
+		KeywordSearchDao keywordSearchDao = KeywordSearchDao.getInstance();
+		List<Item> items =  keywordSearchDao.getItemSearchByCriteria(criteria);
+		System.out.println(items.isEmpty());
+		
+		mav.addAttribute("items", items);
+		/*
+		if(minPrice<0 || maxPrice<0) {
+			minPrice = 0;
+			maxPrice = 0;
+		}
+		if(maxPrice != 0) {
+			
+		}*/
+		mav.setViewName("menu/search.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/menu/admin.do")
+	public ModelAndView Admin(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin/home.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/menu/register.do")
+	public ModelAndView register(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("users/view_register.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/menu/carts.do")
+	public ModelAndView cart(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("carts/test.jsp");
+		return mav;
+		
+	}
+	
+	//@RequestMapping("")
+	//public ModelAndView or
+		
+	
+}

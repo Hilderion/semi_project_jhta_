@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<select id="getItemsByCategoryNo" resultClass="kr.co.team2.vo.Item">
+			<!-- 카테고리 상위번호로 제품 조회하기 -->
+			select 
+				A.item_no                      as no, 
+				A.item_name                    as name, 
+				A.item_contents                as contents,
+				A.item_price                   as price,  
+				(select distinct(opt_current_price) from options D where D.item_no = A.item_no) as optCurrentPrice,
+				(select count(distinct opt_color) from options D where D.item_no = A.item_no) as colorCount,
+				(select count(distinct opt_size) from options D where D.item_no = A.item_no) as sizeCount,
+				(select sum(opt_stock) from options D where D.item_no = A.item_no) as stock	
+			from items A, categorys B, categorys C
+			where A.cate_no = B.cate_no 
+			and B.cate_sub_no = C.cate_no
+			and C.cate_no = 42
+	</select>
+	
+	<select id="getItemsByDetailNo" resultClass="kr.co.team2.vo.Item">
+			<!-- 상세 제품 확인하기 ex) 아우터 -> 자켓 -->
+		 	select 
+				A.item_no                      as no, 
+				A.item_name                    as name, 
+				A.item_contents                as contents,
+				A.item_price                   as price, 
+				A.item_current_discount        as currentDiscount, 
+				A.item_image                   as image,
+				(select count(distinct opt_color) from options D where D.item_no = A.item_no) as colorCount,
+				(select count(distinct opt_size) from options D where D.item_no = A.item_no) as sizeCount,
+				(select sum(opt_stock) from options D where D.item_no = A.item_no) as stock
+			from items A, categorys B, categorys C 
+			where A.cate_no = B.cate_no 
+			and B.cate_sub_no = C.cate_no 
+			and B.cate_no = #value#
+	</select>
+	
+	
+	<select id="getItemSizeBySelected" parameterClass="map" resultClass="kr.co.team2.vo.Option">
+		<!-- 색상 선택에 따른 사이즈 조회 -->
+		select 
+			opt_size as "size"
+		from options
+		where
+			opt_color = #color#
+			and item_no = #itemNo#
+	</select> 
+	
+	<select id="getItemByItemNo" parameterClass="int" resultClass="kr.co.team2.vo.Item">
+			<!-- 아이템 번호로 해당 제품 상세 정보 얻기 -->
+			select 
+				item_no             as no,
+				item_name           as name,
+				item_price          as price,
+				item_image          as image,
+				item_contents       as contents
+			from items 
+			where item_no = #itemNo#
+	</select>
+	
+	<select id="getItemOptionByItemNo" resultClass="kr.co.team2.vo.Option">
+			<!-- 아이템 번호로 해당 제품의 색상 중복 제외 후 얻기 -->
+			select 
+				distinct (opt_color)  as color,	
+				opt_current_price     as currentPrice
+			from options
+			where item_no = #value#
+	</select>
+	
+	
+	<select id="getItemsCount" parameterClass="kr.co.team2.vo.Criteria" resultClass="int">
+		select 
+			count(*)
+		from 
+			items A, categorys B, categorys C
+		where 
+			A.cate_no = B.cate_no 
+			and B.cate_sub_no = C.cate_no
+			<dynamic>
+				<isNotEqual property="subCategory" compareValue="-1">
+					and B.cate_no = #subCategory#
+				</isNotEqual>
+				<isEqual property="subCategory" compareValue="-1">
+					and C.cate_no = #no#
+				</isEqual>
+			</dynamic>
+		
+	</select>
+	
+	<select id="getItemsByCriteria" parameterClass="kr.co.team2.vo.Criteria" resultClass="kr.co.team2.vo.Item">
+		<!-- 리스트 화면에서 아이템들을 조건에 맞게 조회하는 쿼리 -->
+		select *
+		from (
+				select 
+				<dynamic>
+					<isEqual property="sort" compareValue="newp">
+						row_number() over (order by A.item_create_date desc) as rn,
+					</isEqual> 
+					<isEqual property="sort" compareValue="pop">
+						row_number() over (order by (select sum(opt_stock) from options D where D.item_no = A.item_no)) as rn,
+					</isEqual>
+					<isEqual property="sort" compareValue="min">
+						row_number() over (order by (select distinct(opt_current_price) from options D where D.item_no = A.item_no)) as rn,
+					</isEqual>
+					<isEqual property="sort" compareValue="max">
+						row_number() over (order by (select distinct(opt_current_price) from options D where D.item_no = A.item_no) desc) as rn,
+					</isEqual>
+				</dynamic>
+						A.item_no                      as no, 
+						A.item_name                    as name, 
+						A.item_contents                as contents,
+						A.item_price                   as price, 
+						(select distinct(opt_current_price) from options D where D.item_no = A.item_no) as optCurrentPrice,
+						A.item_image                   as image,
+						A.item_create_date             as createDate,
+						(select count(distinct opt_color) from options D where D.item_no = A.item_no) as colorCount,
+						(select count(distinct opt_size) from options D where D.item_no = A.item_no) as sizeCount,
+						(select sum(opt_stock) from options D where D.item_no = A.item_no) as stock	
+					from items A, categorys B, categorys C 
+						where A.cate_no = B.cate_no 
+						and B.cate_sub_no = C.cate_no 
+						and A.item_display_available = 'Y'
+						and A.item_sell_available = 'Y'
+						<dynamic>
+							<isNotEqual property="subCategory" compareValue="-1">
+								and B.cate_no = #subCategory#
+							</isNotEqual>
+							<isEqual property="subCategory" compareValue="-1">
+								and B.cate_no in (select cate_no 
+												  from categorys 
+												  where cate_sub_no = #no#)		
+								<!-- (select cate_no from category where parent_cat = #no#) -->
+							</isEqual>
+						</dynamic>)
+						
+			where rn >= #beginIndex# and rn &lt;= #endIndex#
+		
+					
+	</select>
+	
+	<select id="mainCategoryName" parameterClass="int" resultClass="kr.co.team2.vo.Category">
+			<!-- 카테고리 선택에 따른 카테고리 이름 출력 -->
+			select 
+					cate_contents          as contents
+			from
+					Categorys 
+			where  
+					cate_no = #value#	
+	</select>
+	
+	<select id="subCategorySortByNo" parameterClass="int" resultClass="kr.co.team2.vo.Category">
+			<!-- 카테고리 선택에 따른 버튼 생성 -->
+			select
+					B.cate_no                as no, 
+					B.cate_contents          as contents
+			from   
+					Categorys A, Categorys B 
+			where A.cate_no = B.cate_sub_no 
+			and   B.cate_sub_no = #value#
+	</select>
+	
+	<select id="itemsOrderByDate" resultClass="kr.co.team2.vo.Item">
+			<!-- 제품 등록 날짜순으로 상위 개념 제품 나열하기 (ex-아우터 제품들 조회) -->
+			select 
+				A.item_no                      as no, 
+				A.item_name                    as name, 
+				A.item_contents                as contents,
+				A.item_price                   as price, 
+				(select distinct(opt_current_price) from options D where D.item_no = A.item_no) as optCurrentPrice, 
+				A.item_image                   as image,
+				A.item_create_date             as createDate,
+				(select count(distinct opt_color) from options D where D.item_no = A.item_no) as colorCount,
+				(select count(distinct opt_size) from options D where D.item_no = A.item_no) as sizeCount,
+				(select sum(opt_stock) from options D where D.item_no = A.item_no) as stock	
+			from items A, categorys B, categorys C 
+			where A.cate_no = B.cate_no 
+			and B.cate_sub_no = C.cate_no 
+			and C.cate_no = #value#
+			order by A.item_create_date desc
+	</select>
+	
+	<select id="itemsOrderByHighPrice">
+			<!-- 높은 가격 순으로 상위 개념 제품 나열하기 -->
+			select 
+				A.item_no                      as no, 
+				A.item_name                    as name, 
+				A.item_contents                as contents,
+				A.item_price                   as price, 
+				A.item_current_discount        as currentDiscount, 
+				A.item_image                   as image,
+				(select count(distinct opt_color) from options D where D.item_no = A.item_no) as colorCount,
+				(select count(distinct opt_size) from options D where D.item_no = A.item_no) as sizeCount,
+				(select sum(opt_stock) from options D where D.item_no = A.item_no) as stock	
+			from items A, categorys B, categorys C 
+			where A.cate_no = B.cate_no 
+			and B.cate_sub_no = C.cate_no 
+			and C.cate_no = #value#
+			order by A.item_price desc 
+	</select>
+	
+	<select id="itemsOrderByLowPrice">
+		<!-- 낮은 가격 순으로 하위 개념 제품 나열하기 -->
+		select 
+			A.item_no                    as no, 
+			A.item_name                  as name, 
+			A.item_contents              as contents, 
+			A.item_price                 as price, 
+			A.item_current_discount      as currentDiscount, 
+			A.item_image                 as image,
+			(select count(distinct opt_color) from options D where D.item_no = A.item_no) as colorCount,
+			(select count(distinct opt_size) from options D where D.item_no = A.item_no) as sizeCount,
+			(select sum(opt_stock) from options D where D.item_no = A.item_no) as stock
+		from items A, categorys B, categorys C 
+		where A.cate_no = B.cate_no 
+		and B.cate_sub_no = C.cate_no 
+		and C.cate_no = #value#
+		order by A.item_price
+	</select>
+	
+	<select id="itemsOrderByStock" resultClass="kr.co.team2.vo.Item">
+		<!-- 인기 상품 조회 (재고량이 적은 순으로 조회) -->
+		select 
+			A.item_no                    as no, 
+			A.item_name                  as name, 
+			A.item_contents              as contents, 
+			A.item_price                 as price, 
+			A.item_current_discount      as currentDiscount, 
+			A.item_image                 as image,
+			(select count(distinct opt_color) from options D where D.item_no = A.item_no) as colorCount,
+			(select count(distinct opt_size) from options D where D.item_no = A.item_no) as sizeCount,
+			(select sum(opt_stock) from options D where D.item_no = A.item_no) as stock	
+		from items A, categorys B, categorys C 
+		where A.cate_no = B.cate_no 
+		and B.cate_sub_no = C.cate_no 
+		and C.cate_no = 5
+		order by stock
+	</select>
+</sqlMap>

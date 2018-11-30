@@ -1,0 +1,84 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.AllReviews;
+import kr.co.team2.vo.CriteriaTest;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.PhotoReviews;
+import kr.co.team2.vo.Review;
+
+public class ReviewDao {
+
+	private static ReviewDao self = new ReviewDao();
+	private ReviewDao() {}
+	public static ReviewDao getInstance() {return self;}
+	
+	@SuppressWarnings("unchecked")
+	public List<Review> getAllPhotoReviews() throws SQLException {
+		List<Review> reviews = (List<Review>)SqlMapClientUtil.getSqlMapClient().queryForList("getAllPhotoReviews");
+		return reviews;
+	}
+	
+	public Review getPhotoReviewsByNo(Integer reviewNo) throws SQLException {
+		Review review = (Review)SqlMapClientUtil.getSqlMapClient().queryForObject("getPhotoReviewsByNo",reviewNo);
+		return review;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Review> getAllReviewsByItemNo(int itemNo) throws SQLException {
+		List<Review> reviews = (List<Review>)SqlMapClientUtil.getSqlMapClient().queryForList("getAllReviewsByItemNo",itemNo);
+		return reviews;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Review> getAllReviewsByItemNoTop3(int itemNo) throws SQLException {
+		List<Review> reviews = (List<Review>)SqlMapClientUtil.getSqlMapClient().queryForList("getAllReviewsByItemNoTop3",itemNo);
+		return reviews;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<AllReviews> getAllAllReviews() throws SQLException {
+		List<AllReviews> allReviews = (List<AllReviews>)SqlMapClientUtil.getSqlMapClient().queryForList("getAllAllReviews");
+		return allReviews;
+	}
+	
+	public int getAllReviewsCount(CriteriaTest criteria) throws SQLException {
+		int count = (Integer)SqlMapClientUtil.getSqlMapClient().queryForObject("getAllReviewsCount",criteria);
+		return count;
+	}
+	
+	public List<AllReviews> getAllReviewsByCriteria (CriteriaTest criteria) throws SQLException {
+		List<AllReviews> reviews = (List<AllReviews>)SqlMapClientUtil.getSqlMapClient().queryForList("getAllReviewsByCriteria",criteria);
+		return reviews;
+	}
+	
+	public AllReviews getAllReviewByReviewNo(int reviewNo) throws SQLException {
+		AllReviews allReviews = (AllReviews)SqlMapClientUtil.getSqlMapClient().queryForObject("getAllReviewsByReviewNo",reviewNo);
+		return allReviews;
+	}
+	
+	public List<PhotoReviews> getAllofPhotoReviews() throws SQLException {
+		List<PhotoReviews> photoReviews = (List<PhotoReviews>)SqlMapClientUtil.getSqlMapClient().queryForList("getAllofPhotoReviews");
+		return photoReviews;
+	}
+	
+	public Item getItemByReviewNo(int reviewNo) throws SQLException {
+		Item item = (Item)SqlMapClientUtil.getSqlMapClient().queryForObject("getItemByReviewNo",reviewNo);
+		return item;
+	}
+	
+	public int getPhotoReviewsCount (CriteriaTest criteria) throws SQLException {
+		int count = (Integer)SqlMapClientUtil.getSqlMapClient().queryForObject("getPhotoReviewsCount", criteria);
+		return count;		
+	}
+	
+	public List<PhotoReviews> getPhotoReviewsByCriteria (CriteriaTest criteria) throws SQLException {
+		List<PhotoReviews> reviews = SqlMapClientUtil.getSqlMapClient().queryForList("getPhotoReviewsByCriteria", criteria);
+		return reviews;
+	}
+	
+}

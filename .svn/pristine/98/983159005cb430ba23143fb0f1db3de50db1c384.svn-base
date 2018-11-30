@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<insert id = "saveUser" parameterClass="kr.co.team2.vo.User">
+		insert into users
+			(user_id, user_password, user_name, user_gender, user_birthday, question_no, user_answer, user_address1, user_address2,
+			 user_tel, user_phone, user_sns_checked, user_email, user_email_checked, user_forever, user_available)
+		values
+			(#id#, #password#, #name#, #gender#, #birthDay#, #userQuestion.no#, #answer#, #address1#, #address2#, #tel#, #phoneTel#,
+			 #snsChecked#, #email#, #emailChecked#, #foreverChecked#, #available#)
+	</insert>
+	
+	
+	<select id="UserQuestionByDb" resultClass="kr.co.team2.vo.UserQuestion">
+		select 
+			QUESTION_NO as no,
+			QUESTION_TEXT as textQustion
+		from 
+			USER_QUESTIONS
+	</select>
+	
+	
+	
+	
+</sqlMap>
+  	

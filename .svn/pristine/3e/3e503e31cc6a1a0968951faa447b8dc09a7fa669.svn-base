@@ -1,0 +1,13 @@
+package kr.co.team2.dao;
+
+public class OrderManagementDao {
+
+	private OrderManagementDao() {}
+	private OrderManagementDao instance;
+	public OrderManagementDao getInstance() {
+		if(instance == null) {
+			instance = new OrderManagementDao();
+		}
+		return instance;
+	}
+}

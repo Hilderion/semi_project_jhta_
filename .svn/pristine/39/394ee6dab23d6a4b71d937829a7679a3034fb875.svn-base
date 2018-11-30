@@ -1,0 +1,19 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+
+public class Orders {
+
+	private List<Orders> getOrder(int userNo) throws SQLException {
+		SqlMapClient sqlMapClient = SqlMapClientUtil.getSqlMapClient();
+		List<Orders> orders = (List<Orders>)sqlMapClient.queryForList("getOrder",userNo);
+		
+			return orders;
+
+	}
+}

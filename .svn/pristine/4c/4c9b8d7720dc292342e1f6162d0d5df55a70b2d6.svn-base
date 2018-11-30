@@ -1,0 +1,85 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+#top-menu1{
+	height: 50px;
+	text-align: center;
+	border-top: 1px solid #dbdad8;
+	vertical-align: middle;
+    padding: 15px;
+    font: 13px/14px verdana;
+}
+
+#content-menu1{
+	height: 50px;
+	border-top: 1px solid #dbdad8;
+	vertical-align: middle;
+    padding: 15px;
+    font: 13px/14px verdana;
+	
+}
+#question-title{
+	height: 50px;
+	text-align: center;
+	
+	vertical-align: middle;
+    padding: 15px;
+    font: 13px/14px verdana;
+}
+
+#question-title-content{
+	height: 50px;
+	
+	
+	vertical-align: middle;
+    padding: 15px;
+    font: 13px/14px verdana;
+}
+#vertical-middle{
+	vertical-align: middle;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12"> 
+			<div class="panel panel">
+				<div class="panel-heading" style="height: 60px">
+					<div class="col-xs-2" id="question-title">SUBJECT</div>
+					<div class="col-xs-10" id="question-title-content">${board.user.name}고객님의${board.title }입니다.</div>
+				</div>
+				<div class="panel-body" style="padding: 0px">
+					<div class="col-xs-2" id="top-menu1"><span id="vertical-middle">NAME</span></div>
+					<div class="col-xs-10" id="content-menu1"><span id="vertical-middle">${board.user.name }</span></div>
+					<div class="col-xs-2" id="top-menu1"><span id="vertical-middle">DATE</span></div>
+					<div class="col-xs-10" id="content-menu1"><span id="vertical-middle"><fmt:formatDate value="${board.createDate }"/></span></div>
+					<div class="col-xs-12" id="content-menu1"><span id="vertical-middle">${board.contents }</span></div>
+					
+				</div>
+				<!--댓글  -->
+				<div class="panel-footer">
+					<div>
+						<a href="list.do" class="btn btn-info">목록</a>
+						<a href="modify.do?boardno=${param.no }" class="btn btn-primary">수정</a>
+						<a href="delete" class="btn btn-warining">삭제</a>
+					</div>
+				</div>
+			</div>
+		</div>
+						
+	</div>
+</div>
+
+</body>
+</html>

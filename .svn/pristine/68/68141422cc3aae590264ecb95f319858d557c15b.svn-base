@@ -1,0 +1,48 @@
+package kr.co.team2.controller;
+
+import java.util.List;
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.sun.media.sound.ModelAbstractChannelMixer;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.ItemDao;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.Option;
+
+@Controller
+public class StoreController {
+		
+	@RequestMapping("/stores/list.do")
+	public ModelAndView getItemsByCategoryNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ItemDao itemDao = ItemDao.getInstance();
+		List<Item> items = itemDao.getItemsByCategoryNo(); 
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("items", items);
+		mav.setViewName("stores/list.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/stores/detail.do")
+	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		ItemDao itemDao = ItemDao.getInstance();
+		Item item = itemDao.getItemByItemNo();
+		List<Option> optionz = itemDao.getItemOptionByItemNo();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("item", item);
+		mav.addAttribute("optionz", optionz);
+		
+		mav.setViewName("stores/detail.jsp");
+		return mav;
+	}
+}

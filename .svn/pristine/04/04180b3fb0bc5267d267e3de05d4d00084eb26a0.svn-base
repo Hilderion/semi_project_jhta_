@@ -1,0 +1,13 @@
+package kr.co.team2.service.admin;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.co.team2.vo.Item;
+
+public interface ItemManagementService {
+	
+	
+	public List<Item> getAllItems() throws SQLException;
+	public Item getItemByName() throws SQLException;
+}

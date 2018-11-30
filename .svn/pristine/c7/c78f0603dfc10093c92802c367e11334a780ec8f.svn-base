@@ -1,0 +1,119 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>예시</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+	.jumbotron {
+		background-color: #F2F2F2;
+		border: 1px solid;
+		text-align: center;
+		font-size: 35px;
+	}
+	.buttons {
+		margin-top: 30px;
+	}
+	.button {
+		background-color: white;
+		border: 1px solid;
+		font-size: 14px;
+		width: 125px;
+		height: 35px;
+		margin-left: 4px;
+		cursor: pointer;
+		color: #333;
+		transition:all 0.9s, color 0.3;
+	}
+	.button:hover{
+		color: white;}
+	.hover1:hover {
+		box-shadow: 200px 0 0 0 rgba(0,0,0,0.25) inset,
+				-200px 0 0 0 rgba(0,0,0,0.25) inset;
+	}
+	
+	.orders {
+		margin-bottom: 40px;
+	}
+	.order {
+		background-color: white;
+		border: 1px solid;
+		margin-left: 7px;
+	}	 
+	.cloth {
+		font-size: 20px;
+	}
+	.line {
+		text-decoration: line-through;
+	}
+	#myCarousel {
+		width: 300px;
+		height: 75px;
+	}
+</style>
+</head>
+<%@ include file="../include/header.jsp" %>
+<body>
+<div class="container" style="padding-top: 205px;">
+	<div class="row">
+		<div class="col-xs-offset-1 col-xs-10">
+			<div class="jumbotron text-center">
+				아우터
+				<br>
+				<div class="buttons">
+					<button class="button hover1"><strong>자켓</strong></button>
+					<button class="button hover1"><strong>가디건</strong></button>
+					<button class="button hover1"><strong>항공점퍼/블루종</strong></button>
+					<button class="button hover1"><strong>코트</strong></button>
+					<button class="button hover1"><strong>점퍼</strong></button>
+					<button class="button hover1"><strong>패딩/봄버</strong></button>
+				</div>
+			</div>
+			<div class="body">
+				<div class="row">
+					<div class="col-xs-12">
+					<div class="orders text-right">
+						<button class="order">신상품</button>
+						<button class="order">인기상품</button>
+						<button class="order">낮은가격</button>
+						<button class="order">높은가격</button>
+					</div>	
+					<div class="row">
+						<div class="col-xs-12">
+							<c:forEach var="items" items="items">
+								<div class="col-xs-4" style="margin-top: 15px;">
+									<div>
+		 								<img src ="<c:out value='${pageContext.request.contextPath}' />/images/menu/${item.image}" style="width: 275px; height: 325px;">
+		 								<div class="caption">
+		 								<br>
+		 									<div>
+		 										<div class="cloth"><strong>${item.name }</strong></div>
+		 										<span class="help-block"> color: 5 color / size: 2 size </span> 
+		 										<div class="line"><span class="help-block">제품가격</span></div>
+		 										<div class="cloth"><span style="color:red">SALE! <!--<span class="glyphicon glyphicon-circle-arrow-down"></span>--><img src="https://static.thenounproject.com/png/743651-200.png" style="width: 30px; height: 30px;"></span>&nbsp;&nbsp;25,000원</div> 
+		 									</div>	
+		 								</div>
+		 							</div>		
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+			<hr>
+		</div>
+		<div class="col-xs-1">
+			<div>
+					
+		    </div>
+		</div>	
+	</div>	
+</div>
+</body>
+</html>

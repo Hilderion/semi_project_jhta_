@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+
+	<select id="getItemByReviewNo" parameterClass="int" resultClass="kr.co.team2.vo.Item">
+		select
+			A.item_no		as no,
+			A.item_name		as name,
+			A.item_image	as image
+		from
+			items A, reviews B, options C
+		where
+			A.item_no = C.item_no
+			and B.opt_no = C.opt_no
+			and B.review_no = #value#	 	
+	
+	</select>
+	
+	<select id="getPhotoReviewsByCriteria" parameterClass="kr.co.team2.vo.CriteriaTest" resultClass="kr.co.team2.vo.PhotoReviews">
+	
+		select 
+			*
+		from (
+				select 
+					row_number() over (order by review_create_date desc) rn,
+					A.review_no				as no,
+					A.review_photo 			as photo,
+					A.review_contents		as contents,
+					A.Review_create_date	as createDate,
+					A.Review_score			as score,
+					A.review_counts			as counts
+				
+				from 
+					reviews A, items B, options C
+				WHERE
+					A.opt_no = C.OPT_NO
+					and B.item_no = c.item_no	
+		)
+		where
+			rn >= #beginIndex# and rn &lt;= #endIndex#
+		<!-- 미완. 다이나믹 조건을 opt에 따라 설정할것 -->	
+	
+	</select>
+	
+	<select id="getPhotoReviewsCount" parameterClass="kr.co.team2.vo.CriteriaTest" resultClass="int">
+		select
+			count(*)
+		from
+			(select 
+				A.review_no				as no,
+				A.review_photo 			as photo,
+				A.review_contents		as contents,
+				A.Review_create_date	as createDate,
+				A.Review_score			as score,
+				A.review_counts			as counts
+			
+			from 
+				reviews A, items B, options C
+			WHERE
+				A.opt_no = C.OPT_NO
+				and B.item_no = c.item_no	
+			order by 
+				A.REVIEW_CREATE_DATE desc)	
+		<!-- 미완. 다이나믹 조건을 opt에 따라 설정할것 -->
+	
+	</select>
+	
+
+	<select id="getAllofPhotoReviews" resultClass="kr.co.team2.vo.PhotoReviews">
+		select 
+			A.review_no				as no,
+			A.review_photo 			as photo,
+			A.review_contents		as contents,
+			A.Review_create_date	as createDate,
+			A.Review_score			as score,
+			A.review_counts			as counts
+		
+		from 
+			reviews A, items B, options C
+		WHERE
+			A.opt_no = C.OPT_NO
+			and B.item_no = c.item_no	
+		order by 
+			A.REVIEW_CREATE_DATE desc
+	
+	
+	</select>
+
+
+	<select id="getAllReviewsByReviewNo" parameterClass="int" resultClass="kr.co.team2.vo.AllReviews">
+		select 
+			A.item_no		as no, 
+			A.item_name		as name,
+			A.item_price	as price, 
+			A.item_image	as image 
+		from 
+			ITEMS A, OPTIONS B, REVIEWS C
+		where 
+			A.item_no = B.ITEM_NO
+			and b.opt_no = c.opt_no
+			and review_no = #value#
+	</select>
+
+	<select id="getAllAllReviews" resultClass="kr.co.team2.vo.AllReviews">
+		select distinct 
+			A.item_no		as no, 
+			A.item_name		as name, 
+			A.item_price	as price, 
+			A.ITEM_IMAGE	as image
+		from 
+			items A, options B, reviews C
+		where 
+			A.ITEM_NO = B.ITEM_NO
+			and B.OPT_NO = C.OPT_NO
+	</select>
+	
+	<select id="getAllReviewsByCriteria" parameterClass="kr.co.team2.vo.CriteriaTest" resultClass="kr.co.team2.vo.AllReviews">
+		select distinct
+			no, name, price, image
+		from
+			(
+				select 
+					row_number() over (order by review_create_date desc) rn,
+					A.item_no		as no, 
+					A.item_name		as name, 
+					A.item_price	as price, 
+					A.ITEM_IMAGE	as image
+				from 
+					items A, options B, reviews C
+				where 
+					A.ITEM_NO = B.ITEM_NO
+					and B.OPT_NO = C.OPT_NO
+			
+			)
+		where
+			rn >= #beginIndex# and rn &lt;= #endIndex#	
+			<!-- 미완. 다이나믹 조건을 opt에 따라 설정할것 -->	
+	</select>
+	
+	<select id="getAllReviewsCount" parameterClass="kr.co.team2.vo.CriteriaTest" resultClass="int">
+		select
+			count(*)
+		from
+			(
+				select distinct 
+					A.item_no		as no, 
+					A.item_name		as name, 
+					A.item_price	as price, 
+					A.ITEM_IMAGE	as image
+				from 
+					items A, options B, reviews C
+				where 
+					A.ITEM_NO = B.ITEM_NO
+					and B.OPT_NO = C.OPT_NO
+			)
+				
+	</select>
+
+	<select id="getAllReviewsByItemNo" parameterClass="int" resultClass="kr.co.team2.vo.Review">
+		select 
+			B.item_no			as "item.no",
+			B.item_image		as "item.image",
+			B.item_name			as "item.name",	
+			B.item_price		as "item.price",
+			C.review_score		as score,
+			C.review_counts		as count,
+			C.review_photo		as photo,
+			C.review_no			as no,
+			C.review_contents	as contents
+		from options A, items B, reviews C
+		where 
+			A.item_no = B.item_no
+			and C.opt_no = A.opt_no
+			and b.item_no = #value#
+		order by c.review_no
+	
+	</select>
+	
+	<select id="getAllReviewsByItemNoTop3" parameterClass="int" resultClass="kr.co.team2.vo.Review">
+		select 
+			*
+		from (
+			select 
+				B.item_no			as "item.no",
+				B.item_image		as "item.image",
+				B.item_name			as "item.name",	
+				B.item_price		as "item.price",
+				C.review_score		as score,
+				C.review_counts		as count,
+				C.review_photo		as photo,
+				C.review_no			as no,
+				C.review_contents	as contents
+			from options A, items B, reviews C
+			where 
+				A.item_no = B.item_no
+				and C.opt_no = A.opt_no
+				and b.item_no = #value#
+			order by c.review_no desc
+		) 
+		where rownum &lt;=3
+	</select>
+	
+	<select id="getAllPhotoReviews" resultClass="kr.co.team2.vo.Review">
+		<!-- 포토리뷰 페이지에 뿌려 줄 모든 리뷰 정보 가져오기 -->
+		select 
+			review_no			as no,
+			review_contents		as contents,
+			review_photo		as photo,
+			review_counts		as count,
+			review_create_date	as createDate,
+			review_score		as score,
+			user_no				as "user.no",
+			opt_no				as "option.no"
+		from reviews
+	
+	</select>
+	
+	<select id="getPhotoReviewsByNo" resultClass="kr.co.team2.vo.Review" parameterClass="int">
+		<!-- 포토리뷰 modal 페이지에 뿌려 줄 단일 리뷰 정보 가져오기 -->
+		select 
+			review_no			as no,
+			review_contents		as contents,
+			review_photo		as photo,
+			review_counts		as count,
+			review_create_date	as createDate,
+			review_score		as score,
+			user_no				as "user.no",
+			opt_no				as "option.no"
+		from reviews
+		where review_no = #value#
+	
+	</select>
+
+</sqlMap>

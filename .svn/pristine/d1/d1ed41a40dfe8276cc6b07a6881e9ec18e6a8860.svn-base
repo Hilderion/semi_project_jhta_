@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+
+	<select id="getAllAllReviews" parameterClass="int" resultClass="kr.co.team2.vo.Review">
+		select 
+			B.item_no			as "item.no",
+			B.item_image		as "item.image",
+			B.item_name			as "item.name",	
+			B.item_price		as "item.price",
+			C.review_score		as score,
+			C.review_counts		as count,
+			C.review_photo		as photo,
+			C.review_no			as no,
+			C.review_contents	as contents
+		from options A, items B, reviews C
+		where 
+			A.item_no = B.item_no
+			and C.opt_no = A.opt_no
+			and b.item_no = #value#
+		order by c.review_no	
+	
+	</select>
+
+
+	<select id="getAllPhotoReviews" resultClass="kr.co.team2.vo.Review">
+		<!-- 포토리뷰 페이지에 뿌려 줄 모든 리뷰 정보 가져오기 -->
+		select 
+			review_no			as no,
+			review_contents		as contents,
+			review_photo		as photo,
+			review_counts		as count,
+			review_create_date	as createDate,
+			review_score		as score,
+			user_no				as "user.no",
+			opt_no				as "option.no"
+		from reviews
+	
+	</select>
+	
+	<select id="getPhotoReviewsByNo" resultClass="kr.co.team2.vo.Review" parameterClass="int">
+		<!-- 포토리뷰 modal 페이지에 뿌려 줄 단일 리뷰 정보 가져오기 -->
+		select 
+			review_no			as no,
+			review_contents		as contents,
+			review_photo		as photo,
+			review_counts		as count,
+			review_create_date	as createDate,
+			review_score		as score,
+			user_no				as "user.no",
+			opt_no				as "option.no"
+		from reviews
+		where review_no = #value#
+	
+	</select>
+
+</sqlMap>

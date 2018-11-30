@@ -1,0 +1,260 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+#searchinit{
+	padding-top: 300px;
+}
+#search-content{
+	margin-top:50px;
+	font-size: 14px;
+	font: 12px verdana, "굴림", Dotum, sans-serif;
+	color: #f5f6f7;
+	margin-bottom: 20px;
+	
+}
+
+#max-small {
+    width: 350; 
+    height: 350px;
+    max-width: 500px;
+    max-height: 660px;
+}
+
+#button {
+	border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+p{	
+    margin: 0 0 0px;
+
+}
+.thumbnail {
+    display: block;
+    /* padding: 4px; */
+    margin-bottom: 20px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 1px solid #fff;
+    /* border-radius: 4px; */
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
+}
+label{
+	font: 11px verdana,"돋움",Dotum,sans-serif;
+}
+select {
+	font: 11px verdana,"돋움",Dotum,sans-serif;
+	color: #555;
+	height: 24px;
+    border: 1px solid #ddd;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    padding: 0px;
+}
+input {
+	font: 12px verdana,"굴림",Dotum,sans-serif;
+    color: #555;
+	vertical-align: middle;
+    border: 1px solid #ddd;
+    padding: 0px;
+}
+
+</style>
+</head>
+<body>
+<%@ include file="../include/header.jsp" %>
+<div class="container" id="searchinit">
+	<div class="row">
+		<div class="col-xs-offset-2 col-xs-7">
+			<form class="form-horizontal" action="search.do">
+				<div class="form-group">
+					<label class="control-label col-xs-2" >상품분류</label>
+					<div class="col-xs-10">
+						<select class="form-control" id="">
+							<option selected="selected">상품분류 선택</option>
+								<option>모델명</option>
+								<option>브랜드명</option>
+								<option>트렌드명</option>
+						</select>
+					</div>	
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-2" >검색 조건</label>
+					<div class="col-xs-3">
+						<select class="form-control" id="">
+							<option selected="selected">상품명</option>
+							<option>상품코드</option>
+							<option>상품명</option>
+							<option>제조사</option>
+						</select>
+					</div>
+					<div class="col-xs-7">	
+							<input type="text" class="form-control" id="" placeholder="상품" name="" />	
+					</div>	
+				</div>
+		
+				<div class="form-group">
+					<span class="control-label col-xs-2 text-left">인기검색어</span>
+				
+				</div>
+				
+				
+				<div class="form-group">
+					<label class="control-label col-xs-2">판매가격대 </label>
+					<div class="col-xs-4">
+						<input type="text" class="form-control"  name="minpirce"/>
+					</div>	
+					<div class="col-xs-1 text-center"> 
+						<span> ~</span>
+					</div>
+					<div class="col-xs-4">
+						<input type="text" class="form-control"  name="maxprice"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-xs-2" >검색정렬기준</label>
+					<div class="col-xs-8">
+						<select class="form-control" id="order" name="order">
+							<option selected="selected">::: 기준선택 :::</option>
+							<option value="new">신상품</option>
+							<option value="min">낮은 가격대</option>
+							<option value="max">높은 가격대</option>
+							<option value="likes">조회수 </option>
+						</select>
+					</div>
+					
+					<div class="col-xs-2">	
+						<input type="submit" class="btn btn-primary-xs" id="button" value="검색"/>
+					</div>
+					
+				</div>
+			</form>
+				
+		</div>
+	</div>
+	<div class="text-right" id="search-content">
+		<a href="search.do?order_by=recent"><span id="orderby1">신상품</span></a>
+		<a href="search.do?order_by=pricedesc"><span id="orderby2">낮은가격</span></a>
+		<a href="search.do?order_by=priceasc"><span id="orderby3">높은가격</span></a>
+		<a href="search.do?order_ by=reviewnow"><span id="orderby4">조회수</span></a>
+	</div>
+	<div class="row">
+		<div class="col-xs-12">	
+  			<div class="col-xs-4">
+			    <div class="thumbnail">
+			      <a href="">
+			        <img src="/images/menu/11.gif" alt="Lights" style="width:100%" id="max-small" >
+			        <div class="caption text-center" id="p-tap">
+			          <p>product-title</p>
+			          <p><del>price</del></p>
+			          <p style="color: red"><b>discount_price</b></p>
+			        </div>
+			      </a>
+				</div>
+			</div>
+			
+			<div class="col-xs-4">
+			    <div class="thumbnail">
+			      <a href="">
+			        <img src="/images/menu/4.jpg" alt="Lights" style="width:100%" id="max-small" >
+			        <div class="caption text-center">
+			          <p>product-title</p>
+			          <p><del>price</del></p>
+			          <p style="color: red"><b>discount_price</b></p>
+			        </div>
+			      </a>
+				</div>
+			</div>
+			<div class="col-xs-4">
+			    <div class="thumbnail" >
+			      <a href="">
+			        <img src="/images/menu/4.jpg" alt="Lights" style="width:100%" id="max-small">
+			        <div class="caption text-center">
+			          <p>product-title</p>
+			          <p><del>price</del></p>
+			          <p style="color: red"><b>discount_price</b></p>
+			        </div>
+			      </a>
+				</div>
+			</div>
+			<div class="col-xs-4">
+			    <div class="thumbnail">
+			      <a href="">
+			       <img src="/images/menu/a.jpg" alt="Lights" style="width:100%" id="max-small">
+			        <div class="caption text-center">
+			          <p>product-title</p>
+			          <p><del>price</del></p>
+			          <p style="color: red"><b>discount_price</b></p>
+			        </div>
+			      </a>
+				</div>
+			</div>
+			<div class="col-xs-4">
+			    <div class="thumbnail">
+			      <a href="">
+			        <img src="/images/menu/4.jpg" alt="Lights" style="width:100%" id="max-small">
+			        <div class="caption text-center">
+			          <p>product-title</p>
+			          <p><del>price</del></p>
+			          <p style="color: red"><b>discount_price</b></p>
+			        </div>
+			      </a>
+				</div>
+			</div>
+			<div class="col-xs-4">
+			    <div class="thumbnail" id="img">
+			      <a href="">
+			     	 <img src="images/menu/b.jpg" alt="Lights" style="width:100%" id="max-small">
+			        <div class="caption text-center">
+			          <p>product-title</p>
+			          <p><del>price</del></p>
+			          <p style="color: red"><b>discount_price</b></p>
+			        </div>
+			      </a>
+				</div>
+			</div>
+			<div class="col-xs-4">
+			    <div class="thumbnail">
+			      <a href="">
+			        <img src="images/menu/b.jpg" alt="Lights" style="width:100%" id="max-small">
+			        <div class="caption text-center">
+			          <p>product-title</p>
+			          <p><del>price</del></p>
+			          <p style="color: red"><b>discount_price</b></p>
+			        </div>
+			      </a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> 
+<script type="text/javascript">
+	var orderByBtns = document.querySelectorAll("#search-content a");
+	orderByBtns.forEach(function(orderByBtn,index){
+		
+		orderByBtn.onclick = function(){
+			orderByBtn.style.color='#999';
+		}
+		
+	})
+</script>
+
+</body>
+</html>

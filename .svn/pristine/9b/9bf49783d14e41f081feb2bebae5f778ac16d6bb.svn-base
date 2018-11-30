@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	
+	<select id="getAllItems" resultClass="kr.co.team2.vo.Item">
+		select ITEM_NO 					as no,
+				ITEM_NAME 				as name,
+				ITEM_CONTENTS 			as contents,
+				ITEM_PRICE 				as price,
+				ITEM_DISPLAY_AVAILABLE	as displayAvailable,
+				ITEM_SELL_AVAILABLE		as sellAvailable,
+				ITEM_CURRENT_DISCOUNT	as currentDiscount,
+				ITEM_CREATE_DATE		as createDate,
+				CATE_NO					as "category.no",
+				ITEM_IMAGE				as image
+		from
+				items
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,110 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<div class="row" style="padding-top: 198px;">
+	<div class="col-xs-offset-1 col-xs-10">
+		<img src="http://huns8402.cafe24.com/sy/crm/reviewking_1.jpg"
+			style="width: 100%; margin-bottom: 50px;">
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-xs-offset-2 col-xs-9">
+
+		<div class="col-xs-3 review_box"
+			style="margin-right: 50px; margin-left: 50px;">
+			<div class="panel panel-default">
+				<img src="/images/reviews/testimages/p1.jpg"
+					class="img-thumbnail review_main_image">
+				<p class="review_title">상품524소개소개소개..</p>
+				<div class="review_form_middle" style="">
+					<span class="review_writer">***</span> <span class="review_date">2018.10.11</span>
+				</div>
+				<hr style="margin-top: -3px;" />
+				<div class="review_form_bottom_box">
+					<div class="review_form_bottom">
+						<img src="/images/reviews/testimages/p1.jpg"
+							class="review_bottom_image">
+					</div>
+
+					<div class="review_bottom_font">
+						<div>
+							<div>상품 제목제목</div>
+							<span class="review_bottom_title_color"> 리뷰 <strong
+								class="review_bottom_content1">86</strong>
+							</span> <span class="review_bottom_title_color"> 평점 <strong
+								class="review_bottom_content2">6.9</strong>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="col-xs-3 review_box" style="margin-right: 50px;">
+			<div class="panel panel-default">
+				<img src="/images/reviews/testimages/p3.jpg"
+					class="img-thumbnail review_main_image">
+				<p class="review_title">상품524소개소개소개..</p>
+				<div class="review_form_middle" style="">
+					<span class="review_writer">***</span> <span class="review_date">2018.10.11</span>
+				</div>
+				<hr style="margin-top: -3px;" />
+				<div class="review_form_bottom_box">
+					<div class="review_form_bottom">
+						<img src="/images/reviews/testimages/p3.jpg"
+							class="review_bottom_image">
+					</div>
+
+					<div class="review_bottom_font">
+						<div>
+							<div>상품 제목제목</div>
+							<span class="review_bottom_title_color"> 리뷰 <strong
+								class="review_bottom_content1">86</strong>
+							</span> <span class="review_bottom_title_color"> 평점 <strong
+								class="review_bottom_content2">6.9</strong>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="col-xs-3 review_box" style="margin-right: 50px;">
+			<div class="panel panel-default">
+				<img src="/images/reviews/testimages/p5.jpg"
+					class="img-thumbnail review_main_image">
+				<p class="review_title">상품524소개소개소개..</p>
+				<div class="review_form_middle" style="">
+					<span class="review_writer">***</span> <span class="review_date">2018.10.11</span>
+				</div>
+				<hr style="margin-top: -3px;" />
+				<div class="review_form_bottom_box">
+					<div class="review_form_bottom">
+						<img src="/images/reviews/testimages/p5.jpg"
+							class="review_bottom_image">
+					</div>
+
+					<div class="review_bottom_font">
+						<div>
+							<div>상품 제목제목</div>
+							<span class="review_bottom_title_color"> 리뷰 <strong
+								class="review_bottom_content1">86</strong>
+							</span> <span class="review_bottom_title_color"> 평점 <strong
+								class="review_bottom_content2">6.9</strong>
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+
+

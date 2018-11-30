@@ -1,0 +1,34 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.ItemQuestion;
+
+public class ItemQuestionDao {
+	private static ItemQuestionDao self = new ItemQuestionDao();
+	private ItemQuestionDao() {}
+	public static ItemQuestionDao getInstance() {
+		return self;
+	}
+	
+	
+	//게시판 추가
+	public void addItemQuestion(ItemQuestion item) throws SQLException {
+		SqlMapClientUtil.getSqlMapClient().insert("addItemQuestion",item);
+	}
+	
+	//게시판 리스트 보이게
+	public List<ItemQuestion> getBoardListAll() throws SQLException {
+		List<ItemQuestion> boards = (List<ItemQuestion>)SqlMapClientUtil.getSqlMapClient().queryForList("getBoardListAll");
+		return boards;
+	}
+	
+	//게시판 글 얻기
+	public ItemQuestion getBoardByNo(int boardno) throws SQLException {
+		ItemQuestion board = (ItemQuestion)SqlMapClientUtil.getSqlMapClient().queryForObject("getBoardByNo", boardno);
+		return board;
+	}
+	
+}

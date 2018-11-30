@@ -1,0 +1,40 @@
+package kr.co.team2.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+
+@Controller
+public class ReviewController {
+
+	@RequestMapping("/reviews/allreview.do")
+	public ModelAndView allReview(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("reviews/allreview.jsp");
+		return mav;
+		
+	}
+
+	@RequestMapping("/reviews/bestreview.do")
+	public ModelAndView bestReview(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("reviews/bestreview.jsp");
+		return mav;
+		
+	}
+	
+	@RequestMapping("/reviews/photoreview.do")
+	public ModelAndView photoReview(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("reviews/photoreview.jsp");
+		return mav;
+		
+	}
+
+}

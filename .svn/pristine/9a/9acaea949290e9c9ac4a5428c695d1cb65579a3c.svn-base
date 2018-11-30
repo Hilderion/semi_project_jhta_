@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap>
+	<select id="getOrder" parameterClass="int" resultClass="kr.co.team2.vo.Orders">
+		select
+			o.orders_no				as no,
+			o.orders_create_date	as createDate,
+			o.orders_state			as state,
+			o.user_no				as "user.no"
+			o.orders_count			as count,
+			d.opt_no				as "option.no",
+			d.opt_current_price		as "option.currentPrice",
+			d.opt_color				as "option.color",
+			d.opt_size				as "option.size"
+			
+			
+		from 
+			orders o, orderDetails d
+		where
+			o.order_no = d.order_no
+			and o.user_no = ?
+	</select>
+	
+	<select id="" parameterClass="" resultClass="">
+		select 
+ 			i.item_no			as no,
+ 			i.item_name			as name,
+ 			i.item_image		as image
+ 		from
+ 			items i, options o
+ 		where
+ 			i.item_no = o.item_no
+ 			and o.opt_no = ?
+	</select>
+
+
+	<select id="getOrderSeq" resultClass="int">
+		select order_seq.nextval from dual
+	</select>
+	
+	<insert id="saveOrder" parameterClass="kr.co.team2.vo.Orders">
+		insert into orders
+		(order_no, order_create_date, order_state, user_no)
+		values
+		(#no#, sysdate,'결재대기',#user.no#)
+	</insert>
+	
+	<insert id="saveOrderDetail" parameterClass="kr.co.team2.vo.OrderDetail">
+		insert into orderdetails
+		(order_item_no, order_qty, order_no, opt_no)
+		values
+		(order_item_seq.nextval,#qty#,#order.no#,#option.no#)
+	</insert>
+</sqlMap>

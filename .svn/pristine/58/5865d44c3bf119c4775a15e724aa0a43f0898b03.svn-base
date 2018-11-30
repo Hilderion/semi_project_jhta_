@@ -1,0 +1,223 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style type="text/css">
+  .container {
+	padding-top: 198px;
+	box-sizing: border-box;
+}
+  </style>
+</head>
+<body>	
+<%@ include file="../include/header.jsp"%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<form method="post" action="register.do">
+				<div class="panel panel-info">
+					<div class="panel-heading">회원가입</div>
+					<div class="pannel-body">
+						<h3>기본정보</h3>
+						<table class="table">
+							<colgroup>
+								<col width="20%">
+								<col width="*">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>아이디</th>
+									<td><input id="member_id" name="member_id">
+										<em>(영문소문자/숫자, 4~16자)</em>
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호</th>
+									<td>
+										<input id="password" autocomplete="off" name="password" maxlength="16" value="" type="password" />
+										<em>(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)</em> 
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호 확인</th>
+									<td>
+										<input id="password_confirm" name="password_confirm" maxlength="16" value="" type="password" />
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호 확인 질문</th>
+									<td>
+										<select id="question" name="question">
+											<c:forEach var="userQuestion" items="${userQuestions }">
+												<option value="${userQuestion.no}">${userQuestion.textQustion }</option>
+											</c:forEach>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호 확인 답변</th>
+									<td>
+										<input id="answer" name="answer" value="" style="width:350px;" />
+									</td>
+								</tr>
+								<tr>
+									<th>이름</th>
+									<td>
+										<input type="text" name="name" id="name"/>
+									</td>
+								</tr>
+								<tr>
+									<th>주소</th>
+									<td>
+										<input id="addr1" name="addr1" value="" type="text" style="width:350px">
+										<em>기본주소</em>
+										<br>
+										<input id="addr2" name="addr2"  value="" type="text" style="width:350px">
+										<em>나머지 주소</em>
+									</td>
+								</tr>
+								<tr>
+									<th>일반전화</th>
+									<td>
+										<select id="phone1" name="phone1">
+											<option value="02">02</option>
+											<option value="031">031</option>
+											<option value="032">032</option>
+											<option value="033">033</option>
+											<option value="041">041</option>
+											<option value="042">042</option>
+											<option value="043">043</option>
+											<option value="044">044</option>
+											<option value="051">051</option>
+											<option value="052">052</option>
+											<option value="053">053</option>
+											<option value="054">054</option>
+											<option value="055">055</option>
+											<option value="061">061</option>
+											<option value="062">062</option>
+											<option value="063">063</option>
+											<option value="064">064</option>
+											<option value="0502">0502</option>
+											<option value="0503">0503</option>
+											<option value="0504">0504</option>
+											<option value="0505">0505</option>
+											<option value="0506">0506</option>
+											<option value="0507">0507</option>
+											<option value="070">070</option>
+											<option value="010">010</option>
+											<option value="011">011</option>
+											<option value="016">016</option>
+											<option value="017">017</option>
+											<option value="018">018</option>
+											<option value="019">019</option>
+										</select>
+										-
+										<input id="phone2" name="phone2" maxlength="4" value="" type="text" style="width:80px;">
+										-
+										<input id="phone3" name="phone3" maxlength="4" value="" type="text" style="width:80px;">
+									</td>
+								</tr>
+								<tr>
+									<th>휴대전화</th>
+									<td>
+										<select id="mobile1" name="mobile1">
+											<option value="010">010</option>
+											<option value="011">011</option>
+											<option value="016">016</option>
+											<option value="017">017</option>
+											<option value="018">018</option>
+											<option value="019">019</option>
+										</select>
+										-
+										<input id="mobile2" name="mobile2" maxlength="4" value="" type="text" style="width:75px;">
+										-
+										<input id="mobile3" name="mobile3" maxlength="4" value="" type="text" style="width:80px;">
+									</td>
+								</tr>
+								<tr>
+									<th>SMS 수신여부</th>
+									<td>
+										<label for="sns">
+										<input id="sns" name="sns" class="ec-base-chk" value="Y" type="checkbox">
+										</label>
+									</td>
+								</tr>
+								<tr>
+									<th>이메일</th>
+									<td>
+										<input id="email1" name="email1" class="mailId" value="" type="text">
+										@
+										<input id="email2" name="email2" class="mailAddress" value="" type="text">
+										<select id="email3">
+											<option value="" selected="selected">- 이메일 선택 -</option>
+											<option value="naver.com">naver.com</option>
+											<option value="daum.net">daum.net</option>
+											<option value="nate.com">nate.com</option>
+											<option value="hotmail.com">hotmail.com</option>
+											<option value="yahoo.com">yahoo.com</option>
+											<option value="empas.com">empas.com</option>
+											<option value="korea.com">korea.com</option>
+											<option value="dreamwiz.com">dreamwiz.com</option>
+											<option value="gmail.com">gmail.com</option>
+											<option value="etc">직접입력</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>이메일 수신동의</th>
+									<td>
+										<label for="newsmail"><input id="newsmail" name="newsmail" class="ec-base-chk" value="Y" type="checkbox">동의함</label>
+										<p>쇼핑몰에서 제공하는 유익한 이벤트 소식을 이메일로 받으실 수 있습니다.</p>
+									</td>
+								</tr>
+								<tr>
+									<th>평생회원</th>
+									<td>
+										<input id="lifetimeT" name="lifetime" value="Y" type="radio">
+										<label for="lifetimeT">동의함</label>
+										<input id="lifetimeF" name="lifetime" value="N" type="radio" checked="checked">
+										<label for="lifetimeF">동의안함</label>
+										
+										
+										<p>평생회원으로 가입하시면 <strong>HTA</strong> 회원 탈퇴시까지는 휴면회원으로 전환되지 않으며, 고객님의 개인정보가 탈퇴시까지 안전하게 보관됩니다.</p>
+										
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+					</div>
+				</div>
+				<br>
+				<br>
+				<div class="text-center">
+					<input type="submit" class="btn btn-romi" value="회원가입">
+					<input type="reset" class="btn btn-default" value="취소">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var emails = document.querySelectorAll("#email3");
+	var emailValue;
+	
+	emails.forEach(function(email,index1){
+		email.onchange = function(event){
+			emailValue = email.value;
+			document.getElementById("email2").value = emailValue;
+			
+		}
+	})
+	
+</script>
+</body>
+</html>

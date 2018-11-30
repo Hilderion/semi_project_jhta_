@@ -1,0 +1,27 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+
+@Controller
+public class orderSearchController {
+
+	@RequestMapping("/orders/orderSearch.do")
+	public ModelAndView orderSearch (HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		ModelAndView mav = new ModelAndView();
+		//mav.addAttribute(name, value);
+		mav.setViewName("orders/orderSearch.jsp");
+		
+		return mav;
+	}
+	
+	
+	
+	
+}

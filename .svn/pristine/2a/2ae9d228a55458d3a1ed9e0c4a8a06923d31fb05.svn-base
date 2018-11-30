@@ -1,0 +1,117 @@
+package kr.co.team2.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+@Controller
+public class AdminController {
+
+	@RequestMapping("/admin/main/home.do")
+	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/etc/home.jsp");
+		return mav;
+	}
+	@RequestMapping("/admin/etc/charts.do")
+	public ModelAndView chartList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/etc/charts.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/product/addform.do")
+	public ModelAndView productAddform(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/product/addform.jsp");
+		return mav;
+	}
+	
+	
+	@RequestMapping("/admin/product/list.do")
+	public ModelAndView productList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/product/list.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/product/category.do")
+	public ModelAndView category(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/product/category.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/product/stock.do")
+	public ModelAndView stock(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/product/stock.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/order/list.do")
+	public ModelAndView orderList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/order/list.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/order/mgt.do")
+	public ModelAndView orderManagement(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/order/mgt.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/user/list.do")
+	public ModelAndView userList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/user/list.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/user/mgt.do")
+	public ModelAndView userManagement(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/user/mgt.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/user/log.do")
+	public ModelAndView loginLog(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/user/log.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/board/board.do")
+	public ModelAndView boardList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/board/boardlist.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/admin/board/reviews.do")
+	public ModelAndView reviewList(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("admin/board/reviewlist.jsp");
+		return mav;
+	}
+	
+	
+}

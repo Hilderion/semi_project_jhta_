@@ -1,0 +1,43 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.HomeDao;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.Review;
+
+@Controller
+public class HomeController {
+	@RequestMapping("/home.do")
+	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+
+		System.out.println("home() 메소드 실행됨");
+		ModelAndView mav = new ModelAndView();
+		HomeDao homeDao = HomeDao.getInstance();
+		
+		//신상품 최근 등록 날짜 순
+		List<Item> items = homeDao.getItemByCreateDate();
+		
+		//리뷰 top5 조회
+		List<Review> reviewsCount = homeDao.getReviewBycount();
+		
+		//베스트 상품 리뷰 평점
+		List<Review> reviewsScore = homeDao.getBestItemByScore();
+		
+		request.setAttribute("items", items);
+		request.setAttribute("reivewsCount", reviewsCount);
+		request.setAttribute("reviewsScore", reviewsScore);
+		mav.setViewName("home.jsp");
+		return mav;
+	}
+	
+
+	
+}

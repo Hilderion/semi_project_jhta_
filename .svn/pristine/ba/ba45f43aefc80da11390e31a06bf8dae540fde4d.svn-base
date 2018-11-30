@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<!-- 전체 아이템 조회 -->
+	<select id="getAllItems" resultClass="kr.co.team2.vo.Item">
+		select 
+				A.ITEM_NO 					as no,
+                A.ITEM_NAME 				as name,
+				A.ITEM_CONTENTS 			as contents,
+				A.ITEM_PRICE 				as price,
+				A.ITEM_DISPLAY_AVAILABLE	as displayAvailable,
+				A.ITEM_SELL_AVAILABLE		as sellAvailable,
+				A.ITEM_CURRENT_DISCOUNT		as currentDiscount,
+				A.ITEM_CREATE_DATE			as createDate,
+				A.CATE_NO					as "category.no",
+				A.ITEM_IMAGE				as image
+		from
+				items A
+		order by 
+				A.ITEM_NO desc
+	</select>
+	
+	<!-- 번호로 조회 -->
+	<select id="getItemByNo" resultClass="kr.co.team2.vo.Item" parameterClass="int">
+		select  
+				ITEM_NO 				as no,
+                ITEM_NAME 				as name,
+				ITEM_CONTENTS 			as contents,
+				ITEM_PRICE 				as price,
+				ITEM_DISPLAY_AVAILABLE	as displayAvailable,
+				ITEM_SELL_AVAILABLE		as sellAvailable,
+				ITEM_CURRENT_DISCOUNT	as currentDiscount,
+				ITEM_CREATE_DATE		as createDate,
+				CATE_NO					as "category.no",
+				ITEM_IMAGE				as image
+		from
+				items
+		where
+				ITEM_NO = #value#
+	</select>
+	<!-- 상위 카테고리 조회 -->
+	<select id="getTopCategorys" resultClass="kr.co.team2.vo.Category">
+		select 
+		        CATE_NO 				as no,
+		        CATE_CONTENTS			as contents
+		from 
+		        CATEGORYS
+		where 
+		        CATE_SUB_NO is null
+	</select>
+	
+	<!-- 하위 카테고리 조회 -->
+	<select id="getChildCategotys" resultClass="kr.co.team2.vo.Category" parameterClass="int">
+        select 
+        		CATE_NO				as no,
+				CATE_CONTENTS 		as contents
+		from
+				CATEGORYS
+		where 
+				CATE_SUB_NO = #value#
+	</select>
+	<!-- 옵션 조회 -->
+	<select id="getAllOptions" resultClass="kr.co.team2.vo.Option">
+		select 
+                OPT_NO              as no,
+                OPT_COLOR           as color,
+                OPT_SIZE            as "size",
+                OPT_STOCK           as stock,
+                OPT_CURRENT_PRICE   as currentPrice,
+                OPT_SELL_AVAILABLE  as sellAvailable,
+                ITEM_NO             as "item.no"
+        from
+                OPTIONS
+	</select>
+	
+	<!-- 아이템번호로 옵션 조회 -->
+		<select id="getOptionByItemNo" resultClass="kr.co.team2.vo.Option" parameterClass="int">
+		select 
+                OPT_NO              as no,
+                OPT_COLOR           as color,
+                OPT_SIZE            as "size",
+                OPT_STOCK           as stock,
+                OPT_CURRENT_PRICE   as currentPrice,
+                OPT_SELL_AVAILABLE  as sellAvailable,
+                ITEM_NO             as "item.no"
+        from
+                OPTIONS
+        where
+        		ITEM_NO = #value#
+	</select>
+	
+	
+	
+</sqlMap>

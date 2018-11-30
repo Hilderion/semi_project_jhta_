@@ -1,0 +1,155 @@
+package kr.co.team2.controller;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.oreilly.servlet.MultipartRequest;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.ItemQuestionDao;
+import kr.co.team2.vo.ItemQuestion;
+import kr.co.team2.vo.User;
+
+@Controller
+public class ItemBoardController {
+
+	@RequestMapping("/itemBoard/list.do")
+	public ModelAndView BoardList(HttpServletRequest request, HttpServletResponse response) throws SQLException{
+		
+		ModelAndView mav = new ModelAndView();
+		
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		List<ItemQuestion> boards = itemQuestionDao.getBoardListAll();
+		
+		mav.addAttribute("boards", boards);
+		mav.setViewName("itemboard/boardlist.jsp");
+		
+		
+		return mav;
+	}
+	
+	@RequestMapping("/itemBoard/form.do")
+	public ModelAndView form(HttpServletRequest request, HttpServletResponse response){
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("itemboard/form.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/itemBoard/add.do")
+	public ModelAndView add(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		
+		ModelAndView mav= new ModelAndView();
+		/*
+		HttpSession session = request.getSession();
+		User loginedUser = (User) session.getAttribute("LOGIN_USER_INFO");
+		if(loginedUser == null) {
+			mav.setViewName("redirect:/users/loginform.do");
+			return mav;
+		}
+		*/
+		String saveDirectory = "c:/itemBoard_files";
+		int maxPostSize = 1024*1024*100;
+		String encoding = "utf-8";
+		
+		MultipartRequest mr = new MultipartRequest(request, saveDirectory, maxPostSize, encoding);
+		String title = mr.getParameter("title");
+		String content = mr.getParameter("contents");
+		String password = mr.getParameter("password");
+		String secret = mr.getParameter("secret");
+		String filename = mr.getFilesystemName("upfile");
+		
+		User loginedUser = new User();
+		loginedUser.setNo(1);
+		loginedUser.setName("KYH");
+		
+		ItemQuestion itemQuestion = new ItemQuestion();
+		itemQuestion.setTitle(title);
+		itemQuestion.setContents(content);
+		itemQuestion.setPassword(password);
+		itemQuestion.setSecret(secret);
+		itemQuestion.setFilename(filename);
+		itemQuestion.setUser(loginedUser);
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		itemQuestionDao.addItemQuestion(itemQuestion);
+		
+		//자바에서 이미지를 여러개 담을 수 있는 리스트를 만든다.
+		
+		
+		/*
+		 * Enumeration<E> en = mr.getFileNames();
+		while(en.hasMoreElements()){
+			String filename = (String) en.nextElement();
+			
+			Image image = new Imgae();
+			image.setFileaname();
+			images.add(image);
+		}
+		 */
+		
+		mav.setViewName("redirect:list.do");
+		
+		return mav;
+	}
+	
+	//게시판 상세정보
+	@RequestMapping("/itemBoard/detail.do")
+	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		int boardno = Integer.parseInt(request.getParameter("boardno"));
+		ModelAndView mav= new ModelAndView();
+		
+		ItemQuestionDao itemQuestion = ItemQuestionDao.getInstance();
+		ItemQuestion board = itemQuestion.getBoardByNo(boardno);
+		
+		mav.addAttribute("board", board);
+		mav.setViewName("itemboard/detail.jsp?no="+boardno);
+		return mav;
+	}
+	
+	//게시판 상세글 수정
+	@RequestMapping("/itemBoard/modify.do")
+	public ModelAndView modify(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		//int boardno = Integer.parseInt(request.getParameter("boardno"));
+		ModelAndView mav= new ModelAndView();
+		//mav.setViewName("itemboard/detail.jsp?no="+boardno);
+		mav.setViewName("itemboard/modify.jsp");
+		return mav;
+	}
+	
+	//게시판 삭제
+	@RequestMapping("/itemBoard/delete.do")
+	public ModelAndView delete(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		//int boardno = Integer.parseInt(request.getParameter("boardno"));
+		ModelAndView mav= new ModelAndView();
+		//mav.setViewName("itemboard/detail.jsp?no="+boardno);
+		mav.setViewName("itemboard/delete.jsp");
+		return mav;
+	}
+	
+	//자신의 게시판이 아닌 경우 비밀번호 입력
+	@RequestMapping("/itemBoard/userCheck.do")
+	public ModelAndView userPasswordCheck(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException{
+		int boardno =1 ;
+		ItemQuestionDao itemQuestionDao = ItemQuestionDao.getInstance();
+		ItemQuestion board =  itemQuestionDao.getBoardByNo(boardno);
+		//캐시유저와 게시판 등록 유저가 같으면 로그인 체크 안하고
+		//다를 경우 체크
+		ModelAndView mav = new ModelAndView();
+		
+		if(board.getUser().getName()==null) {
+			mav.setViewName("itemBoard/detail.do?boardno="+boardno);
+		}else if(board.getUser().getName()==null) {
+			
+		}
+		
+		return mav;
+	}
+}

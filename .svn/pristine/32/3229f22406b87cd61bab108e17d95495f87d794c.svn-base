@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap>
+	<select id="getOrder" parameterClass="int" resultClass="kr.co.team2.vo.OrderList">
+		select
+			order_no			as no,
+			order_state			as state,
+			order_create_date	as createDate,
+			user_no				as userNo
+		from 
+			orders
+	
+
+	</select>
+
+	<select id="getOrderSeq" resultClass="int">
+		select order_seq.nextval from dual
+	</select>
+	
+	<insert id="saveOrder" parameterClass="kr.co.team2.vo.Orders">
+		insert into orders
+		(order_no, order_create_date, order_state, user_no)
+		values
+		(#no#, sysdate,'입금대기',#user.no#)
+	</insert>
+	
+	<insert id="saveOrderDetail" parameterClass="kr.co.team2.vo.OrderDetail">
+		insert into orderdetail
+		(order_item_no, order_qty, order_no, opt_no)
+		values
+		(order_item_seq.nextval,#qty#,#order.no#,#option.no#)
+	</insert>
+</sqlMap>

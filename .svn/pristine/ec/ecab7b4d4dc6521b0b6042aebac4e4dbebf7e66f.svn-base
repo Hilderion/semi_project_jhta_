@@ -1,0 +1,78 @@
+package kr.co.team2.controller;
+
+import java.util.List;
+
+
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.sun.media.sound.ModelAbstractChannelMixer;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.ItemDao;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.Option;
+
+@Controller
+public class StoreController {
+		
+	@RequestMapping("/stores/list.do")
+	public ModelAndView getItemsByCategoryNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		
+		ItemDao itemDao = ItemDao.getInstance();
+		List<Item> items = itemDao.getItemsByCategoryNo(); 
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("items", items);
+		
+		String order = request.getParameter("order");
+		if(order != null) {
+			if(order.equals("new")) {
+				//인기 xml를 찾는 dao를 만들어서 리스트로 가져온다.
+				List<Item> newItems = itemDao.itemsOrderByDate();
+				mav.addAttribute("newItems", newItems);
+			} else if(order.equals("pop")) {
+				List<Item> popItems = itemDao.itemsOrderByStock();
+				mav.addAttribute("popItems", popItems);
+			}
+		}
+		
+		mav.setViewName("stores/list.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/stores/detail.do")
+	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String selColor = request.getParameter("selColor");
+		String selSize = request.getParameter("selSize");
+		
+		ItemDao itemDao = ItemDao.getInstance();
+		Item item = itemDao.getItemByItemNo();
+		List<Option> optionz = itemDao.getItemOptionByItemNo();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("item", item);
+		mav.addAttribute("optionz", optionz);
+		
+		if(selColor != null && !selColor.equals("")) {
+			mav.addAttribute("selColor", selColor);
+			List<Option> sizeList = itemDao.getItemSizeByItemNo(selColor);
+			mav.addAttribute("sizeList", sizeList);
+		}
+		
+		if(selSize != null && !selSize.equals("")) {
+			mav.addAttribute("selSize", selSize);
+			List<Option> size = itemDao.getItemSizeBySelected(selSize);
+			mav.addAttribute("size", size);
+		}
+		
+		mav.setViewName("stores/detail.jsp");
+		return mav;
+	}
+}

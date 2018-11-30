@@ -1,0 +1,89 @@
+package kr.co.team2.vo;
+
+public class Criteria {
+	
+	private int beginIndex;
+	private int endIndex; 
+	private int rows; 
+	private String target;
+	private String keyword; 
+	private String sort;
+	private int no;
+	private String typeno;
+	private String opt;
+
+	public Criteria() {}
+
+	public int getBeginIndex() {
+		return beginIndex;
+	}
+
+	public void setBeginIndex(int beginIndex) {
+		this.beginIndex = beginIndex;
+	}
+
+	public int getEndIndex() {
+		return endIndex;
+	}
+
+	public void setEndIndex(int endIndex) {
+		this.endIndex = endIndex;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	public String getTypeno() {
+		return typeno;
+	}
+
+	public void setTypeno(String typeno) {
+		this.typeno = typeno;
+	}
+
+	public String getOpt() {
+		return opt;
+	}
+
+	public void setOpt(String opt) {
+		this.opt = opt;
+	}
+
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+	
+}

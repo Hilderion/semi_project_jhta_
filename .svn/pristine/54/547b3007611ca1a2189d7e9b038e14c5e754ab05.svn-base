@@ -1,0 +1,28 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.Item;
+
+public class ItemManagementDao {
+
+	private static ItemManagementDao instance;
+	private ItemManagementDao() {}
+	public static ItemManagementDao getInstance() {
+		if(instance == null) {
+			instance = new ItemManagementDao();
+		}
+		return instance;
+	}
+	
+	//모든 상품 조회
+	@SuppressWarnings("unchecked")
+	public List<Item> getAllItems() throws SQLException {
+		List<Item> items = (List<Item>)SqlMapClientUtil.getSqlMapClient().queryForList("getAllItems");
+		return items;
+	}
+	
+	
+}

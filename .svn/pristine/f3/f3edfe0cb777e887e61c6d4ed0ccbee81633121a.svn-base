@@ -1,0 +1,46 @@
+package kr.co.team2.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+@Controller
+public class MenuController {
+	
+	@RequestMapping("/menu/search.do")
+	public ModelAndView search(HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("검색");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("menu/search.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/menu/admin.do")
+	public ModelAndView Admin(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("admin/home.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/menu/register.do")
+	public ModelAndView register(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("users/view_register.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/menu/carts.do")
+	public ModelAndView cart(HttpServletRequest request, HttpServletResponse response) {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("carts/test.jsp");
+		return mav;
+		
+	}
+	
+	//@RequestMapping("")
+	//public ModelAndView or
+		
+	
+}

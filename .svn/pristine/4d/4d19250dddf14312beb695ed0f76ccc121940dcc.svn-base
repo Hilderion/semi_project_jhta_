@@ -1,0 +1,91 @@
+package kr.co.team2.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.JSONView;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.ItemDao;
+import kr.co.team2.vo.Criteria;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.Option;
+import kr.co.team2.vo.Pagination;
+
+@Controller
+public class StoreController {
+		
+	ItemDao itemDao = ItemDao.getInstance();
+	
+	@RequestMapping("/stores/list.do")
+	public ModelAndView getItemsByCategoryNo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int cp = 1; 
+		int rows = 10;
+		String sort = request.getParameter("sort") == null ? "newp" : request.getParameter("sort");
+		
+		try {
+			cp = Integer.parseInt(request.getParameter("cp"));
+			rows = Integer.parseInt(request.getParameter("rows"));
+		} catch (Exception e) {}
+		
+		Criteria criteria = new Criteria();
+		criteria.setBeginIndex((cp-1)*rows + 1);
+		criteria.setEndIndex(cp*rows);
+		criteria.setSort(sort);
+		
+		int totalRows = itemDao.getItemsCount(criteria);
+		Pagination pagination = new Pagination(cp,rows,totalRows);
+			
+		List<Item> items = itemDao.getItemsByCriteria(criteria);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("items", items);
+		mav.addAttribute("pagination", pagination);
+		mav.setViewName("stores/list.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/stores/detail.do")
+	public ModelAndView detail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		int itemNo = Integer.parseInt(request.getParameter("itemNo"));
+		
+		Item item = itemDao.getItemByItemNo(itemNo);
+		List<Option> optionz = itemDao.getItemOptionByItemNo(itemNo);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("item", item);
+		mav.addAttribute("optionz", optionz);
+		mav.setViewName("stores/detail.jsp");
+			
+		return mav;
+	}
+	
+	@RequestMapping("/stores/optiondetail.do")
+	public ModelAndView optiondetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String color = request.getParameter("color");
+		int itemNo = Integer.parseInt(request.getParameter("itemNo"));
+		
+		System.out.println(color);
+		System.out.println(itemNo);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("color", color);
+		map.put("itemNo", itemNo);
+		
+		List<Option> options = itemDao.getItemSizeBySelected(map);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addAttribute("options", options );
+		mav.setView(new JSONView());
+		return mav;
+	}
+}

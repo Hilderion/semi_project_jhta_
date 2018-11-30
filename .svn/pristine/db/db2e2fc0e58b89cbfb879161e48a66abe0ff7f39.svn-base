@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<select id="getCart" parameterClass="int" resultClass="kr.co.team2.vo.Item">
+		select 
+			cart_no			as no,
+			cart_image		as image,
+			cart_count		as count,
+			user_no		as "user.no",
+			opt_no	as "option.no"
+			c.user_no	as "option.cart.user.no"
+		from 
+			items a, options o, carts c
+		where
+			a.item_no = o.item_no
+			and o.opt_no = c.opt_no
+			
+			user_no = #value#
+	</select>
+</sqlMap>

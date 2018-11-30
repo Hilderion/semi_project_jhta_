@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<select id="getCart" parameterClass="int" resultClass="kr.co.team2.vo.Cart">
+		select
+			c.cart_no				as no,
+			c.cart_image			as image,
+			c.cart_count			as count,
+			c.user_no				as "user.no",
+			o.opt_no				as "option.no",
+			o.opt_current_price 	as "option.currentPrice",
+			i.item_name				as "option.item.name", 
+			o.opt_color				as	"option.color",
+			o.opt_size				as 	"option.size"
+		from 
+			items i, options o, carts c
+		where
+			i.item_no = o.item_no
+			and o.opt_no = c.opt_no
+			and user_no = #value#
+	</select>
+	
+	<!-- 장바구니 삭제 -->
+	
+	
+	<delete id="deleteCartByCartNo" parameterClass="int">
+		delete from carts
+		where cart_no = #value#
+	</delete>
+	
+</sqlMap>

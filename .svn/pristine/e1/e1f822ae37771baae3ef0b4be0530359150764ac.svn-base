@@ -1,0 +1,195 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link
+	href="../../../../resources/admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="../../../../resources/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+	href="../../../../resources/admin/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+<link href="../../../../resources/admin/css/sb-admin.css" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet">
+	
+
+
+</head>
+<body>
+<%@include file="../include/header.jsp"%>
+            <div id="content-wrapper" style="width: 1000px;">
+                <div class="container-fluid">
+                    <!-- Breadcrumbs-->
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">상품관리</a></li>
+                        <li class="breadcrumb-item active">상품등록</li>
+                    </ol>
+                    <!-- DataTables Example -->
+                    <div class="card mb-3 ">
+                        <div class="card-header bg-secondary text-white"> <i class="fas fa-table"></i> 새로운 상품을 등록하세요! </div>
+                        <div class="card-body">
+                            <form id="item-form-box">
+                                <div class="form-group ">
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <p class="card-title"> <i class="fas fa-caret-square-right"></i> 카테고리를 설정하세요.<span class="text-danger">(필수)</span> </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-sm-4">
+                                            <select class="form-control" id="top-category" name="topCategoty">
+                                                <option value="">상위 카테고리 설정</option>
+                                                <c:forEach items="${topCategorys}" var="category">
+                                                    <option value="${category.no }">${category.contents}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <select id="child-category" class="form-control" style="display:none" name="childCategory"></select>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <p class="card-title"> <i class="fas fa-tshirt"></i> 상품 이름을 입력하세요.<span class="text-danger">(필수)</span> </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <div class="form-label-group">
+                                                <input type="text" id="name-box" class="form-control" placeholder="상품 이름을 입력하세요." autofocus="autofocus" name="name">
+                                                <label for="name-box">예) 플라워 미니 원피스, 원피스 1위</label>
+                                            </div>
+                                            <hr>
+                                            <div class="form-item">
+                                                <label for=""><i class="fas fa-keyboard"></i> 게시글 등록</label>
+                                                <textarea id="contents-box" class="form-control"></textarea>
+                                            </div>
+                                            <hr> </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <p class="card-title"> <i class="fas fa-won-sign"></i> 판매가<span class="text-danger">(필수)</span> </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div style="width:200px">
+                                            <div class="form-label-group">
+                                                <input type="text" id="price-box" class="form-control" placeholder="예)32,000" autofocus="autofocus" style="max-width: 200px" name="price">
+                                                <label for="price-box">예) 32,000</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h2>
+									<i class="fas fa-won-sign"></i>
+								</h2> </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-row">
+                                        <div class="col-md-12"> 진열상태
+                                            <input type="radio" name="display" value="Y" checked="checked">상품 진열
+                                            <input type="radio" name="display" value="N">상품 진열안함 </div>
+                                        <div class="col-md-12"> 판매상태
+                                            <input type="radio" name="sell" value="Y" checked="checked">상품 판매
+                                            <input type="radio" name="sell" value="N">상품 판매안함 </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <p class="card-title"> <i class="fas fa-won-sign"></i>옵션/재고 </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" id="option-box">
+	                                        <div class="col-md-3">
+	                                            <div class="form-label-group">
+	                                                <input type="text" id="size1" class="form-control" placeholder="예)32,000" autofocus="autofocus">
+	                                                <label for="size1"><small>색상 입력</small></label>
+	                                            </div>
+	                                        </div>
+	                                        <h1>></h1>
+	                                        <div class="col-md-3">
+	                                            <div class="form-label-group">
+	                                                <input type="text" id="color1" class="form-control" placeholder="예)32,000" autofocus="autofocus">
+	                                                <label for="color1"><small>사이즈 입력</small></label>
+	                                            </div>
+	                                        </div>
+	                                        <h1>></h1>
+	                                        <div class="col-md-3">
+	                                            <div class="form-label-group">
+	                                                <input type="number" id="stock1" class="form-control" placeholder="예)32,000" autofocus="autofocus">
+	                                                <label for="stock1"><small>재고 입력</small></label>
+	                                            </div>
+	                                        </div>
+	                                        <a class="btn btn-primary btn-sm" id="add-btn">+</a>
+                                    </div>
+                                    <div id="cate-content"></div>
+                                    <hr>
+                                    <div class="form-row">
+                                        <div class="col-md-12">
+                                            <p class="card-title"> <i class="fas fa-won-sign"></i> 대표 사진 등록<span class="text-danger">(필수)</span> </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12"> 권장이미지 : 500px * 500px / 5M 이하 / gif, png, jpg(jpeg)
+                                            <input type="file" class="form-control"> </div>
+                                    </div>
+                                    <hr>
+                                    <div class="form-row">
+                                        <button class="btn btn-primary col-md-">상품 저장</button>
+                                    </div>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+	<!--컨테이너 끝-->
+
+
+    <!-- 하위 카테고리 생성 -->
+    <script>
+    document.getElementById("top-category").onchange = function(event){
+		var categoryNo = event.target.value;
+    	
+		if(categoryNo) {
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState == 4 && xhr.status ==200)	{
+					var text = xhr.responseText;
+					var childCategorys = JSON.parse(text);
+					
+					var options = "";
+					document.getElementById("child-category").style.display = "";
+					childCategorys.forEach(function(item,index){
+						options +="<option>"+item.contents+"</option>";
+					})
+					var childCategoryBox = document.getElementById("child-category");
+					childCategoryBox.innerHTML = options;
+				}
+			}
+			xhr.open("GET",'childCategory.do?categoryNo=' + categoryNo);
+			xhr.send();
+		}
+		else if (categoryNo == ''){
+			document.getElementById("child-category").style.display = "none";
+		}
+	}
+    
+    document.getElementById("add-btn").onclick = function(){
+    	
+    	var content = '<div class="form-group">';
+    	content += '<label>이미지</label>';
+    	content += '<input type="file" class="form-control" name="upfile">';
+    	content += '</div>'
+    	
+    	$("#cate-content").insertBefore(content);
+    }
+	</script>
+	<%@include file="../include/footer.jsp"%>
+	<!-- 게시판 에디터 -->
+</body>
+</html>

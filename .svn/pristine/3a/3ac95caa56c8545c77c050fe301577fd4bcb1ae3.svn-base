@@ -1,0 +1,110 @@
+package kr.co.team2.service.admin;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import kr.co.team2.dao.adminItemDao;
+import kr.co.team2.dao.adminOrderDao;
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.Category;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.Option;
+
+public class adminItemService {
+
+	adminItemDao dao = adminItemDao.getInstance();
+	adminOrderDao orderDao = adminOrderDao.getInstance();
+
+	// 전체 아이템 조회
+	public List<Item> getAllItems() throws SQLException {
+		List<Item> items = dao.getAllItems();
+		for (Item item : items) {
+			List<Option> options = dao.getOptionByItemNo(item.getNo());
+			item.setOption(options);
+		}
+		return items;
+	}
+
+	// 번호로 아이템 조회
+	public Item getItemByNo(int itemNo) throws SQLException {
+		Item item = dao.getItemByNo(itemNo);
+
+		Category category = dao.getCategoryByNo(item.getCategory().getNo());
+		List<Option> options = dao.getOptionByItemNo(item.getNo());
+
+		item.setCategory(category);
+		item.setOption(options);
+		System.out.println(category.getContents());
+
+		return item;
+	}
+
+	// 상위 카테고리 조회
+	public List<Category> getTopCategorys() throws SQLException {
+		return dao.getTopCategorys();
+	}
+
+	// 하위 카테고리 조회
+	public List<Category> getChildCategorys(int categoryNo) throws SQLException {
+		return dao.getChildCategorys(categoryNo);
+	}
+
+	// 전체 옵션 조회
+	public List<Option> getAllOptions() throws SQLException {
+		return dao.getAllOptions();
+	}
+
+	// 아이템 시퀀스 가져오기
+	public int getItemSEQ() throws SQLException {
+		return dao.getItemSEQ();
+	}
+
+	// 아이템 생성
+	public void addItem(Item item) throws SQLException {
+		dao.addItem(item);
+	}
+
+	// 옵션 생성
+	public void addOption(Option option) throws SQLException {
+		dao.addOption(option);
+	}
+
+	// 카테고리 생성
+	public void addCategory(Category category) throws SQLException {
+		if (category.getSubNo() != 0) {
+			dao.addChildCategory(category);
+		} else {
+			dao.addparentsCategory(category);
+		}
+	}
+
+	// 하위 카테고리 삭제
+	public void deleteChildCategory(int cateNo) throws SQLException {
+		dao.deleteChildCategory(cateNo);
+	}
+
+	// 아이템,옵션,장바구니 삭제
+	public void deleteItem(int itemNo) throws SQLException {
+		List<Option> options = new ArrayList<>();
+		if(itemNo!=0) {options = dao.getOptionByItemNo(itemNo);}
+		if(!options.isEmpty()) {
+			for (Option option : options) {
+				orderDao.deleteCart(option.getNo());
+			}
+			dao.deleteOptionByItemNo(itemNo);
+		}
+		dao.deleteItem(itemNo);
+	}
+	//옵션 장바구니 삭제
+	public void deleteOptionByOptNo(int optNo) throws SQLException {
+		dao.deleteOptionByOptNo(optNo);
+		orderDao.deleteCart(optNo);
+	}
+
+	// 아이템 업데이트
+	public void updateItem(Item item) throws SQLException {
+		dao.updateItem(item);
+	}
+}

@@ -1,0 +1,166 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style type="text/css">
+  .container {
+	padding-top: 198px;
+	box-sizing: border-box;
+	
+	}
+  </style>
+</head>
+<body>
+<%@ include file="../include/header.jsp"%>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<form method="post" action="modifyform.do">
+				<div class="panel panel-info">
+					<div class="panel-heading">회원가입</div>
+					<div class="pannel-body">
+						<h3>기본정보</h3>
+						<table class="table">
+							<colgroup>
+								<col width="20%">
+								<col width="*">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th>아이디</th>
+									<td><input id="member_id" name="member_id" value="${user.id }">
+										<em>(영문소문자/숫자, 4~16자)</em>
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호</th>
+									<td>
+										<input id="password" autocomplete="off" name="password" maxlength="16" value="${user.password }" type="password" />
+										<em>(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)</em> 
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호 확인</th>
+									<td>
+										<input id="password_confirm" name="password_confirm" maxlength="16" value="${user.password }" type="password" />
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호 확인 질문</th>
+									<td>
+										<select id="question" name="question">
+											<c:forEach var="userQuestion" items="${userQuestions }">
+												<option value="${userQuestion.no}">${userQuestion.textQustion }</option>
+											</c:forEach>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>비밀번호 확인 답변</th>
+									<td>
+										<input id="answer" name="answer" value="${user.answer }" style="width:350px;" />
+									</td>
+								</tr>
+								<tr>
+									<th>이름</th>
+									<td>
+										<input type="text" name="name" id="name" value="${user.name }"/>
+									</td>
+								</tr>
+								<tr>
+									<th>주소</th>
+									<td>
+										<input id="addr1" name="addr1" value="${user.addr1 }" type="text" style="width:350px">
+										<em>기본주소</em>
+										<br>
+										<input id="addr2" name="addr2"  value="${user.addr2 }" type="text" style="width:350px">
+										<em>나머지 주소</em>
+									</td>
+								</tr>
+								<tr>
+									<th>일반전화</th>
+									<td>
+										<input id="phone" name="phone" maxlength="20" value="${user.tel }" type="text" style="width:80px;">
+									</td>
+								</tr>
+								<tr>
+									<th>휴대전화</th>
+									<td>
+										<input id="mobile" name="mobile" maxlength="20" value="${user.phoneTel }" type="text" style="width:75px;">
+									</td>
+								</tr>
+								<tr>
+									<th>SMS 수신여부</th>
+									<td>
+										<label for="sns">
+										<input id="sns" name="sns" class="ec-base-chk" value="${user.snsChecked }" type="checkbox">
+										</label>
+									</td>
+								</tr>
+								<tr>
+									<th>이메일</th>
+									<td>
+										<input id="email1" name="email1" class="mailId" value="${user.email }" type="text">
+									</td>
+								</tr>
+								<tr>
+									<th>이메일 수신동의</th>
+									<td>
+										<label for="newsmail"><input id="newsmail" name="newsmail" class="ec-base-chk" value="Y" type="checkbox">동의함</label>
+										<p>쇼핑몰에서 제공하는 유익한 이벤트 소식을 이메일로 받으실 수 있습니다.</p>
+									</td>
+								</tr>
+								<tr>
+									<th>평생회원</th>
+									<td>
+										<input id="lifetimeT" name="lifetime" value="Y" type="radio">
+										<label for="lifetimeT">동의함</label>
+										<input id="lifetimeF" name="lifetime" value="N" type="radio" checked="checked">
+										<label for="lifetimeF">동의안함</label>
+										
+										
+										<p>평생회원으로 가입하시면 <strong>HTA</strong> 회원 탈퇴시까지는 휴면회원으로 전환되지 않으며, 고객님의 개인정보가 탈퇴시까지 안전하게 보관됩니다.</p>
+										
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+					</div>
+				</div>
+				<br>
+				<br>
+				<div class="text-center">
+					<input type="submit" class="btn btn-romi" value="회원가입">
+					<input type="button" class="btn btn-default" value="취소" onClick="location.href='http://localhost/home.do'">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	var emails = document.querySelectorAll("#email3");
+	var emailValue;
+	
+	emails.forEach(function(email,index1){
+		email.onchange = function(event){
+			emailValue = email.value;
+			document.getElementById("email2").value = emailValue;
+			
+		}
+	})
+</script>
+</body>
+</html>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<select id="getItemsByCategoryNo" parameterClass="int" resultClass="kr.co.team2.vo.Item">
+			<!-- 카테고리 상위번호로 제품 조회하기 -->
+			select 
+				A.item_no                      as no, 
+				A.item_name                    as name, 
+				A.item_contents                as contents,
+				A.item_price                   as price, 
+				A.item_display_available       as displayAvailable,
+				A.item_sell_available          as sellAvailable, 
+				A.item_current_discount        as currentDiscount, 
+				A.item_image                   as image
+			from items A, categorys B, categorys C 
+			where A.cate_no = B.cate_no 
+			and B.cate_sub_no = C.cate_no 
+			and A.item_display_available = 'Y'
+			and A.item_sell_available = 'Y'
+			and C.cate_no = #value#
+	</select>
+	
+	<select id="getItemsByDetailNo" parameterClass="int" resultClass="kr.co.team2.vo.Item">
+		<!-- 카테고리 하위번호로 상세 제품 확인하기 ex) 아우터 -> 자켓 -->
+		select 
+			
+		from 
+		
+	</select>
+	
+	<select id="getItemByItemNo" parameterClass="int" resultClass="kr.co.team2.vo.Item">
+	
+	</select>
+	
+</sqlMap>

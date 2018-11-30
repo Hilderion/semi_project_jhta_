@@ -1,0 +1,17 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import kr.co.team2.service.admin.adminOrderService;
+
+public class test {
+
+	public static void main(String[] args) throws SQLException {
+		adminOrderService os = new adminOrderService();
+		System.out.println(os.getBeforeOrders());
+	}
+	
+	
+}

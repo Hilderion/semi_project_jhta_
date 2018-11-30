@@ -1,0 +1,44 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>비회원 주문 조회</title>
+</head>
+<body>
+
+    <div class="">
+    	<ul>
+			<li class="selected"><a href="">주문내역조회 (1)</a></li>
+            <li class=""><a href="">취소/반품/교환 내역 (0)</a></li>
+            <li class=" displaynone"><a href="">이전 주문내역 (0)</a></li>
+        </ul>
+	</div>
+	<div>
+		<ul>
+			<li>기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
+            <li>주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
+           	<li><font color="#ff0000"><b>정상적으로 결제후 주문취소 및 반품/교환의 경우 게시글로 문의를 남겨주셔야 처리가능합니다.</b></font></li>
+            <li><font color="#ff0000"><b>위 사항 관련하여, 게시판 문의없이 요청하신 경우 교환/반품처리지연, 출고된 이 후에 발생되는 배송비는 고객님 부담이오니 교환/반품 접수시에 유의하시기 바랍니다.</b></font></li>
+        </ul>
+</div>
+
+
+	<table border="1" summary="">
+
+		<caption>주문주문 상품 정보 상품 정보 목록</caption>
+		
+         <thead>
+            <tr>
+				<th scope="col" class="number">주문일자<br/>[주문번호]</th>
+                <th scope="col" class="product">상품정보</th>
+                <th scope="col" class="quantity">수량</th>
+                <th scope="col" class="price">상품구매금액</th>
+                <th scope="col" class="state">주문처리상태</th>
+       		</tr>
+       	</thead>
+</table>
+
+</body>
+</html>

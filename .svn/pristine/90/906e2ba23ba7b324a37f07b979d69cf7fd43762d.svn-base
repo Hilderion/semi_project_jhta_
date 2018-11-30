@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<!-- 게시판 업데이트 -->
+	<update id="updateItemQuestion" parameterClass="kr.co.team2.vo.ItemQuestion">
+		update
+			ITEM_QUESTIONS	
+		set
+			ITEM_QUESTION_TITLE			= #title#
+			ITEM_QUESTION_CONTENTS		= #contents#
+			ITEM_QUESTION_FILENAME		= #filename#
+			ITEM_QUESTION_SECRET		= #secret#
+			ITEM_QUESTION_AVAILABLE		= #available#
+			ITEM_QUESTION_TYPE_NO		= #itemQuestionType.no#
+		where
+			ITEM_QUESTION_NO = #no#
+		
+	
+	</update>
+
+	<!-- 게시판 추가 -->
+	<insert id="addItemQuestion" parameterClass="kr.co.team2.vo.ItemQuestion">
+		insert into item_questions
+			(item_question_no,
+			ITEM_QUESTION_TITLE,
+			ITEM_QUESTION_CONTENTS,
+			ITEM_QUESTION_FILENAME,
+			ITEM_QUESTION_SECRET,
+			ITEM_QUESTION_TYPE_NO,
+			user_no
+			)
+		values
+			(4,#title#,#contents#,#filename#,#secret#,#title#,#user.no#)
+	</insert>
+	<!-- 게시판 리스트 -->	
+	<select id="getBoardListAll" resultClass="kr.co.team2.vo.ItemQuestion">
+		 select 
+			i.ITEM_QUESTION_NO				as no,
+			i.ITEM_QUESTION_TITLE			as title,
+			i.ITEM_QUESTION_CONTENTS		as contents,
+			i.ITEM_QUESTION_FILENAME		as filename,
+			i.ITEM_QUESTION_SECRET			as secret,
+			u.user_name						as "user.name",
+			u.user_no						as "user.no",
+			u.user_id						as "user.id",
+			i.ITEM_QUESTION_AVAILABLE		as available,
+			t.ITEM_QUESTION_TYPE_NO			as "itemQuestionType.no",
+			t.ITEM_QUESTION_TYPE_CONTENTS	as "itemQuestionType.contents",
+			i.ITEM_QUESTION_CREATE_DATE 	as createDate
+		from item_questions i , users u , ITEM_QUESTION_TYPES t
+		where
+            i.user_no = u.user_no
+            and i.ITEM_QUESTION_TYPE_NO = t.ITEM_QUESTION_TYPE_NO
+            and	upper(i.ITEM_QUESTION_AVAILABLE) = 'Y'
+		order by  i.ITEM_QUESTION_CREATE_DATE desc
+	</select>
+	
+	<select id="getBoardByNo" parameterClass="int" resultClass="kr.co.team2.vo.ItemQuestion">
+		select 
+			i.ITEM_QUESTION_NO				as no,
+			i.ITEM_QUESTION_TITLE			as title,
+			i.ITEM_QUESTION_CONTENTS		as contents,
+			i.ITEM_QUESTION_FILENAME		as filename,
+			i.ITEM_QUESTION_SECRET			as secret,
+			u.user_name						as "user.name",
+			u.user_no						as "user.no",
+			u.user_id						as "user.id",
+			i.ITEM_QUESTION_AVAILABLE		as available,
+			t.ITEM_QUESTION_TYPE_NO			as "itemQuestionType.no",
+			t.ITEM_QUESTION_TYPE_CONTENTS	as "itemQuestionType.contents",
+			i.ITEM_QUESTION_CREATE_DATE 	as createDate
+		from item_questions i , users u , ITEM_QUESTION_TYPES t
+		where
+            i.user_no = u.user_no
+            and i.ITEM_QUESTION_TYPE_NO = t.ITEM_QUESTION_TYPE_NO
+            and	upper(i.ITEM_QUESTION_AVAILABLE) = 'Y'
+            
+			and i.ITEM_QUESTION_NO = #value#
+	</select>
+	<select id="getquestionByCategoryType" resultClass="kr.co.team2.vo.ItemQuestionType">
+		select 
+			ITEM_QUESTION_TYPE_NO				as no,
+			ITEM_QUESTION_TYPE_CONTENTS 		as contents
+		from 
+			ITEM_QUESTION_TYPES
+	</select>
+	
+	<!-- 댓글 -->
+	<select id="getItemQuestionComment" resultClass="kr.co.team2.vo.ItemQuestionComment">
+		select 
+			c.ITEM_QUESTION_NO						as	"itemQuestion.no",
+			c.ITEM_QUESTION_COMMENT_CONTENTS		as 	contents,
+			c.COMMENT_CREATE_DATE					as createDate
+		from ITEM_QUESTIONS o , ITEM_QUESTION_COMMENTS c
+		where o.item_question_no = c.Item_question_no
+		order by c.COMMENT_CREATE_DATE desc
+	</select> 
+	
+	<!-- 댓글 추가 -->
+	<insert id="addItemQuestionComment" parameterClass="kr.co.team2.vo.ItemQuestionComment">
+		insert into ITEM_QUESTION_COMMENTS
+		(ITEM_QUESTION_NO, ITEM_QUESTION_COMMENT_CONTENTS)
+		values
+		(#itemQuestion.no#,#contents#)
+	
+	</insert>
+	<!-- 댓글 총 수  -->
+	<select id="getCommentCount" resultClass="int">
+		select count(*)
+		from ITEM_QUESTION_COMMENTS
+	</select>	
+</sqlMap>

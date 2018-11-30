@@ -1,0 +1,32 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.CartDao;
+import kr.co.team2.vo.Item;
+
+@Controller
+public class CartController {
+
+	@RequestMapping("/carts/cart-empty.do")
+	public ModelAndView cart (HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		int cartId = Integer.parseInt(request.getParameter("cartId"));
+		CartDao cartDao = CartDao.getInstance();
+		List<Item> items = cartDao.getCart(cartId);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("items", items);
+		mav.setViewName("cart-empty.jsp");
+		
+		return mav;
+		
+	}
+	
+}

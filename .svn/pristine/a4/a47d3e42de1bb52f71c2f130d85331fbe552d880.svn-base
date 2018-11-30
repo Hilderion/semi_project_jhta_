@@ -1,0 +1,299 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link
+	href="../../../../resources/admin/vendor/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="../../../../resources/admin/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="../../../../resources/admin/vendor/datatables/dataTables.bootstrap4.css"
+	rel="stylesheet">
+<link href="../../../../resources/admin/css/sb-admin.css"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean"
+	rel="stylesheet">
+<style>
+.text-stick {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+</style>
+
+<title>Insert title here</title>
+</head>
+<body>
+	<%@include file="../include/header.jsp"%>
+
+	<div id="content-wrapper" style="max-width: 1300px;"
+		class="pull-center">
+		<div class="container-fluid">
+
+			<!-- Breadcrumbs-->
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+				<li class="breadcrumb-item active">Tables</li>
+			</ol>
+
+			<div class="card">
+				<div class="card-header">상품 조회</div>
+				<div class="card-body">
+					<div class="ml-5 mr-5">
+						<form class="form-group" target="list.do">
+							<div class="form-item">
+								<label>검색</label> 
+								<select class="form-control">
+									<option value="all" selected>전체</option>
+									<option value="name">이름</option>
+									<option value="no">번호</option>
+								</select><br>
+							</div>
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="검색"
+									aria-label="table-search" aria-describedby="basic-addon2">
+								<div class="input-group-append">
+									<button class="btn " type="button">
+										<i class="fas fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<hr>
+					<div class="table-responsive">
+						<table class="table table-bordered table-sm" width="100%"
+							cellspacing="0" style="font-size: 13px;">
+							<!-- id에 js에서 설정한 값-->
+
+							<colgroup>
+								<col width="10%">
+								<col width="30%">
+								<col width="20%">
+								<col width="10%">
+								<col width="10%">
+								<col width="15%">
+							</colgroup>
+							<thead>
+								<tr>
+									<th>No</th>
+									<th style="min-width: 150px">상품명</th>
+									<th>정가</th>
+									<th>판매가</th>
+									<th>재고</th>
+									<th>등록일</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>No</th>
+									<th>상품명</th>
+									<th>판매가</th>
+									<th>할인율</th>
+									<th>재고</th>
+									<th>등록일</th>
+								</tr>
+							</tfoot>
+							<tbody>
+
+								<c:forEach items="${items}" var="item">
+									<tr >
+										<td>${item.no }</td>
+										<td data-toggle="modal" data-target="#myModal" onclick="getItemDetail(${item.no})">
+										<img src="/images/items/${item.image eq null ? 'not_image.PNG':item.image }" width="57px" height="57px;" style="border: 1px solid silver; padding: 2px;" class="float-left" />
+											<ul style="list-style: none; margin-left: 27px; margin-bottom: 0px" >
+												<li>${item.name }</li>
+												<c:if test="${!empty item.option }">
+													<li class="text-primary">- 색상 :
+														<c:forEach items="${item.option }" var="option"> ${option.color }</c:forEach>
+													</li>
+													<li class="text-primary">- 사이즈 :
+														<c:forEach items="${item.option }" var="option"> ${option.size } </c:forEach>
+													</li>
+												</c:if>
+											</ul>
+										</td>
+										<td>${item.price }</td>
+										<td>${item.currentDiscount }</td>
+										<td>몇개
+										<td><fmt:formatDate value="${item.createDate }"
+												pattern="yyyy.MM.dd" /></td>
+									</tr>
+								</c:forEach>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!--카드 끝-->
+			<div class="card" style="width: 100px; margin: 0px; display: none">
+				<img class="card-img-top" src="img/sample.jpg" alt="Card image"
+					height="100px">
+				<div class="card-body">
+					<p>sa</p>
+					<p>sa</p>
+				</div>
+			</div>
+
+		</div>
+		<!--컨테이너 끝-->
+	</div>
+	<!--컨텐츠 끝-->
+	
+	<!-- Button to Open the Modal -->
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal" >
+  <div class="modal-dialog" style="margin-left:400px;">
+    <div class="modal-content" style="width:1000px;">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">상품 디테일</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body" style="height:700px; overflow: scroll;" >
+        <table class="table table-bordered" id="item-option">
+        	<tr>
+        		<td>상품번호</td>
+        		<td colspan="3" id="item-no"></td>
+        	</tr>
+        	<tr>
+        		<td colspan="4"  class="text-center"><img src="" style="max-width:965px " id="item-img">
+        		</td>
+        	</tr>
+        	<tr>
+        		<th><small>상품이름</small></th>
+        		<td id="item-name"></td>
+        		<th><small>카테고리</small></th>
+        		<td id="item-category"></td>
+        	</tr>
+        	<tr>
+        		<td><small>정가</small></td>
+        		<td id="item-price"></td>
+        		<td><small>판매가</small></td>
+        		<td id="item-currentDiscount">
+        		</td>
+        	</tr>
+        	<tr>
+        		<td><small>판매여부</small></td>
+        		<td id="item-sell"></td>
+        		<td><small>진열여부</small></td>
+        		<td id="item-display"></td>
+        	</tr>
+        	<tr>
+        		<td><small>재고</small></td>
+        		<td><span id="item-stock"></span></td>
+        		<td><small>등록일</small></td>
+        		<td ><span id="item-date"></span></td>
+        	</tr>
+        	<tr>
+        		<td colspan="1">옵션</td>
+        		<td id="item-opt" colspan="3"></td>
+        	</tr>
+        	<tr>
+        		<td colspan="4">상품 내용</td>
+        	</tr>
+        	<tr>
+        		<td colspan="4" id="item-contents" class="text-center"></td>
+        	</tr>
+        </table>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+      <div id="item-btn">
+       
+     </div>
+        <button type="button" class="btn btn-default" data-dismiss="modal" >취소</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+		<script>
+		function getItemDetail(itemNo){
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function(event) {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					var text = xhr.responseText;
+					var item = JSON.parse(text);
+					var stock = 0;
+					item.option.forEach(function(item,index){stock+=item.stock});
+					$("#item-opt").html("");
+					
+					
+					document.getElementById("item-no").textContent = item.no;
+					document.getElementById("item-name").textContent = item.name;
+					document.getElementById("item-category").textContent = item.category.contents;
+					document.getElementById("item-price").textContent = item.price;
+					document.getElementById("item-currentDiscount").textContent = item.currentDiscount;
+					document.getElementById("item-sell").textContent = item.sellAvailable;
+					document.getElementById("item-display").textContent = item.displayAvailable;
+					document.getElementById("item-stock").textContent = stock;
+					document.getElementById("item-date").textContent = item.createDate;
+					document.getElementById("item-img").setAttribute("src", "/images/items/"+item.image);
+					$("#item-contents").html(item.contents);
+					
+					var row = '<button type="button" class="btn btn-primary" onclick="modifyItem('+item.no+')">수정</button>'
+				        row += '<button type="button" class="btn btn-danger" onclick="deleteItem('+item.no+')" >삭제</button>'
+					$("#item-btn").html(row);	
+					<!-- 옵션 초기화, 컬러 스타일 설정-->
+					$('.option-box').remove();
+					item.option.forEach(
+							function(item,index){
+								var optRow = "";
+								optRow +="<div style='margin:3px;'><button class='btn btn-primary btn-sm'>"+item.color+"</button> ";
+						    	optRow += "<button class='btn btn-success btn-sm'>"+item.size+"</button> "
+						    	optRow += "<button class='btn btn-warning btn-sm'>"+item.stock+"</button> ";
+						    	optRow += "<button class='btn btn-dark btn-sm'>"+item.currentPrice+"</button> </div>";
+								
+								$("#item-opt").append(optRow);
+							});
+					
+					$("#item-detail-modal").modal('show');
+				}
+			}
+			xhr.open("GET", "detail.do?itemNo=" + itemNo);
+			xhr.send();
+		}
+		
+		  function deleteItem(itemNo){
+				 
+			  if (!confirm("삭제하시겠습니까?")) {
+			        return;
+			    }
+			    $.ajax({
+			        url: "deleteItem.do",
+			        type:"post", 
+			        data: {"itemNo":itemNo},
+			        success: function(result){
+			        	console.log(result.result)
+			            if (result.result=="OK") {
+			                alert("삭제되었습니다.");
+							window.location.reload();
+			            } else{
+			            	alert("삭제에 실패했습니다.");
+			            }
+			        }
+			    })
+			}
+		
+		function modifyItem(itemNo){
+			if(confirm('상품 수정페이지로 가시겠습니까?')){
+				location.href="modifyform.do?itemNo="+itemNo;
+			} else {}
+		}
+	</script>
+	<%@include file="../include/footer.jsp"%>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+package kr.co.team2.service.admin;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
+
+import kr.co.team2.dao.ItemManagementDao;
+import kr.co.team2.vo.Category;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.Option;
+
+public class ItemManagementService {
+	
+	
+	ItemManagementDao dao = ItemManagementDao.getInstance();
+	//전체 아이템 조회
+	public List<Item> getAllItems() throws SQLException {
+		List<Item> items = dao.getAllItems();
+		for (Item item : items) {
+			List<Option> options = dao.getOptionByItemNo(item.getNo());
+			for (Option option : options) {
+			}
+			item.setOption(options);
+		}
+		return items;
+	}
+	//번호로 아이템 조회
+	public Item getItemByNo(int itemNo) throws SQLException {
+		return dao.getItemByNo(itemNo);
+	}
+	//상위 카테고리 조회
+	public List<Category> getTopCategorys()throws SQLException{
+		return dao.getTopCategorys();
+	}
+	//하위 카테고리 조회
+	public List<Category> getChildCategorys(int categoryNo) throws SQLException {
+		return dao.getChildCategorys(categoryNo);
+	}
+	//전체 옵션 조회
+	public List<Option> getAllOptions()throws SQLException{
+		return dao.getAllOptions();
+	}
+	
+	//아이템에 맞는 옵션 넣기
+}

@@ -1,0 +1,23 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.codec.digest.DigestUtils;
+
+import kr.co.team2.dao.ItemDao;
+import kr.co.team2.dao.adminItemDao;
+import kr.co.team2.service.admin.adminOrderService;
+
+public class test {
+
+	public static void main(String[] args) throws SQLException {
+		
+		String a = "tmddus13!!";
+		System.out.println(DigestUtils.sha256Hex(a));
+		System.out.println("bef9bc5fb772c39fb335768e85bb188470130a65fe1ee92463827127b4d0670f");
+	}
+	
+	
+}

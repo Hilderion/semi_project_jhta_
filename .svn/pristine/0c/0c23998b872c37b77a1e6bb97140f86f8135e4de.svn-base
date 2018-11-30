@@ -1,0 +1,21 @@
+package kr.co.team2.service.admin;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.co.team2.dao.ItemManagementDao;
+import kr.co.team2.vo.Item;
+
+public class ItemManagementService {
+	
+	
+	ItemManagementDao dao = ItemManagementDao.getInstance();
+	
+	public List<Item> getAllItems() throws SQLException {
+		return dao.getAllItems();
+	}
+
+	public Item getItemByNo(int itemNo) throws SQLException {
+		return dao.getItemByNo(itemNo);
+	}
+}

@@ -1,0 +1,33 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.engine.mapping.sql.Sql;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.User;
+
+public class adminUserDao {
+
+	private adminUserDao() {}
+	private static adminUserDao instance;
+	public static adminUserDao getInstance() {
+		if(instance == null) {
+			instance = new adminUserDao();
+		}
+		return instance;
+	}
+	//전체 유저
+	@SuppressWarnings("unchecked")
+	public List<User> getAllUsers() throws SQLException{
+		return SqlMapClientUtil.getSqlMapClient().queryForList("getAllUsers");
+	}
+	//번호로 유저
+	public User getUserByNo(int userNo) throws SQLException{
+		return (User) SqlMapClientUtil.getSqlMapClient().queryForObject("getUserByN",userNo);
+	}
+	public void updateUser(User user) throws SQLException {
+		SqlMapClientUtil.getSqlMapClient().update("updateUse",user);
+	}
+}

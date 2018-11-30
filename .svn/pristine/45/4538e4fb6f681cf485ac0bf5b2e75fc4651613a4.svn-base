@@ -1,0 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<div style="text-align: center; padding: 30px;">
+	<img src="/images/reviews/testimages/real_1.jpg" style="width: 900px; text-align: center;" />
+</div>
+<div style="text-align: center;">
+	<select style="width: 134px; height: 47px; margin-right: 30px;">
+		<option>성별</option>
+		<option>남자</option>
+		<option>여자</option>
+	</select> <select style="width: 134px; height: 47px; margin-right: 30px;">
+		<option>연령대</option>
+		<option>10대</option>
+		<option>20~24세</option>
+		<option>25~29세</option>
+		<option>30~34세</option>
+		<option>35~39세</option>
+		<option>40세 이상</option>
+	</select> <select style="width: 134px; height: 47px; margin-right: 30px;">
+		<option>키</option>
+		<option>139cm 이하</option>
+		<option>140 - 144 cm</option>
+		<option>145 - 149 cm</option>
+		<option>150 - 154 cm</option>
+		<option>155 - 159 cm</option>
+		<option>160 - 164 cm</option>
+		<option>165 - 169 cm</option>
+		<option>170 - 174 cm</option>
+		<option>175 - 179 cm</option>
+		<option>180 - 184 cm</option>
+		<option>185 - 189 cm</option>
+		<option>190 cm 이상</option>
+	</select> <select style="width: 134px; height: 47px; margin-right: 30px;">
+		<option>몸무게</option>
+		<option>~ 44kg</option>
+		<option>45 ~ 47 kg</option>
+		<option>48 ~ 50 kg</option>
+		<option>51 ~ 53 kg</option>
+		<option>54 ~ 56 kg</option>
+		<option>57 ~ 59 kg</option>
+		<option>60 ~ 62 kg</option>
+		<option>63 ~ 65 kg</option>
+		<option>66 ~ 68 kg</option>
+		<option>69 ~ 71 kg</option>
+		<option>72 ~ 74 kg</option>
+		<option>75 ~ 77 kg</option>
+		<option>78 ~ 80 kg</option>
+		<option>81 ~ 83 kg</option>
+		<option>84 ~ 86 kg</option>
+		<option>87 ~ 89kg</option>
+		<option>90 ~ kg</option>
+	</select> <select style="width: 134px; height: 47px;">
+		<option>평소사이즈</option>
+		<option>XS</option>
+		<option>S</option>
+		<option>M</option>
+		<option>L</option>
+		<option>XL</option>
+	</select>
+</div>

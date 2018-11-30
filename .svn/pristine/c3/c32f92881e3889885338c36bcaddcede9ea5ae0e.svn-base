@@ -1,0 +1,33 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.vo.User;
+
+public class OrderController {
+
+	@RequestMapping("/orders/orders.do")
+	public ModelAndView orders (HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("LOGIN_USER_INFO");
+		if (user == null) {
+			mav.setViewName("redirect:http://localhost/home.do");
+			return mav;
+		}
+		
+		//mav.addAttribute(name, value);
+		//mav.setViewName("orders/orders.jsp");
+		
+		return mav;
+		
+	}
+}

@@ -1,0 +1,12 @@
+package kr.co.team2.service.admin;
+
+import java.sql.SQLException;
+
+import kr.co.team2.vo.User;
+
+public class UserManagementService {
+
+	public User getUserByNo() throws SQLException{
+		return null;
+	};
+}

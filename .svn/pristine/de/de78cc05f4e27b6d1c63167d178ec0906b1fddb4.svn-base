@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<select id="getItemByCreateDate" resultClass="kr.co.team2.vo.Item">
+	<!-- 스토리 신상 -->
+		select a.no,a.name,a.contents,a.price,a.currentDiscount ,a.createDate ,a.image,
+		(select count(distinct opt_color) from options B where B.item_no = a.no) as color_color,
+    	(select count(distinct opt_size) from options B where B.item_no = a.no) as color_size
+		from (
+			select 
+				item_no		as	no,	
+				item_name	as	name,
+				item_contents as	contents,
+				item_price	as	price,
+				item_display_available	as	displayAvailable,
+				item_sell_available	as	sellAvailable,
+				item_current_discount	as	currentDiscount,
+				item_create_date	as	createDate,
+				item_image	as image
+			from items
+			where 
+			item_sell_available = 'Y'
+			and item_display_available = 'Y'
+			order by ITEM_CREATE_DATE desc
+	   	 ) a
+    where rownum &lt; 10
+	</select>
+	<!-- 상의 베스트 상품  -->
+	<!-- 
+	<select id="getItemByTop" parameterClass="int" resultClass="kr.co.team2.vo.Item">
+		select i.no,i.name,i.contents ,i.price ,i.displayAvailable ,i.sellAvailable ,i.currentDiscount ,i.createDate ,i.image,i."option.review.no"
+		from (
+	      select 
+	            a. item_no		as	no,	
+	            a.item_name	as	name,
+	            a.item_contents as	contents,
+	            a.item_price	as	price,
+	            a.item_display_available	as	displayAvailable,
+	            a.item_sell_available	as	sellAvailable,
+	            a.item_current_discount	as	currentDiscount,
+	            a.item_create_date	as	createDate,
+	            a.item_image	as image,
+	            c.cate_no   as "category.no",
+	            c.cate_sub_no as "category.subNo",
+	            c.cate_contents as "category.cateContents",
+                r.review_no as "option.review.no"
+	        from items a,categorys c , options o ,reviews r 
+	        where a.cate_no = c.cate_no
+	        and o.item_no = a.item_no
+	        and o.opt_no = #value#
+	        and c.cate_no = 4
+	        order by r.review_score desc) i
+		where rownum  &lt; 10
+		
+	</select>
+	 -->
+	<!-- 카테고리 내용으로 번호 찾기 -->
+	<select id="getCategoryByContents" parameterClass="string" resultClass="kr.co.team2.vo.Category">
+		select cate_no as no
+		from CATEGORYS
+		where cate_contents = #value#
+	</select>
+	<!-- 카테고리 번호로 해당 상품 조회 -->
+	<select id="getCategoryByNo" parameterClass="int" resultClass="kr.co.team2.vo.Category">
+		select cate_no as no
+		from CATEGORYS
+		where cate_sub_no = #value#
+	</select>
+	
+	<!--리뷰 top 5 조회  -->
+	<select id="getReviewBycount" resultClass="kr.co.team2.vo.Review">
+		
+		select a.contents, a.counts,a.photo, a.score, a."option.item.name" , a."option.item.image"
+		from (
+			select 
+			    r.review_contents as contents,
+			    r.review_counts as counts,
+			    r.review_photo as photo,
+			    r.review_score as score,
+			    i.item_name as "option.item.name",
+			    i.item_image as "option.item.image"
+			from items i, options o, reviews r
+			where i.item_no = o.opt_no
+			and o.opt_no = r.opt_no
+			order by r.review_counts desc) a
+		where rownum &lt;= 5
+	</select>
+	
+	
+	<!-- 베스트 상품 탑 3 -->
+	<select id="getBestItemByScore" resultClass="kr.co.team2.vo.Item">
+		select a.price, a.name, a.image, a."item.currentPrice"
+		from (
+			select 
+			    i.item_price as price,
+			    i.item_name as name,
+			    i.item_image as image,
+			    o.OPT_CURRENT_PRICE as "item.currentPrice"
+			from items i, options o, reviews r
+			where i.item_no = o.opt_no
+			and o.opt_no = r.opt_no
+			order by r.review_score desc) a
+		where rownum &lt;= 3
+	
+	</select>
+	
+	
+	
+</sqlMap>

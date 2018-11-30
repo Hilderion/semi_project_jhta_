@@ -1,0 +1,23 @@
+package kr.co.team2.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+
+@Controller
+public class UserController {
+
+	@RequestMapping("/users/registerform.do")
+	public ModelAndView register(HttpServletRequest request, HttpServletResponse response) 
+	throws Exception {
+		
+		System.out.println("registerform() 메소드 실행됨");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("users/registerform.jsp");
+		
+		return mav;
+	}
+}

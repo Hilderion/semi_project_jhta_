@@ -1,0 +1,23 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.Item;
+
+public class CartDao {
+	private static CartDao self = new CartDao();
+	private CartDao () {}
+	public static CartDao getInstance() {
+		return self;
+	}
+	public List<Item> getCart(int no) throws SQLException {
+		SqlMapClient sqlMapClient = SqlMapClientUtil.getSqlMapClient();
+		List<Item> items = (List<Item>)sqlMapClient.queryForList("getCart", no);
+		
+		return items;
+	}
+}

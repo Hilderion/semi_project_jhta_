@@ -1,0 +1,33 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+import com.ibatis.sqlmap.client.SqlMapException;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.User;
+import kr.co.team2.vo.UserQuestion;
+
+public class UserDao {
+
+	private static UserDao self = new UserDao();
+	private UserDao () {}
+	public static UserDao getInstance() {
+		return self;
+	}
+	
+	public void saveUser(User user) throws SQLException {
+		SqlMapClient sqlMapClient = SqlMapClientUtil.getSqlMapClient();
+		sqlMapClient.insert("saveUser", user);
+	
+	}
+	
+	//유저 질문 db
+	public List<UserQuestion> UserQuestionByDb() throws SQLException {
+		SqlMapClient sqlMapClient = SqlMapClientUtil.getSqlMapClient();
+		List<UserQuestion> userQuestion = (List<UserQuestion>)sqlMapClient.queryForList("UserQuestionByDb");
+		return userQuestion;
+	}
+}

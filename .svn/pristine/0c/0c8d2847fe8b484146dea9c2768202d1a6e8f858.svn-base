@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<select id="getRecentOrders">
+		select 
+       			TO_CHAR(A.order_create_date,'yy-mm') as createDate,
+		        sum(C.opt_current_price*b.order_qty) as monthlySales
+		from 
+		        ORDERS A,ORDERDETAILS B, OPTIONS C
+		where 
+		        A.ORDER_NO = B.ORDER_NO
+		and 
+		        B.OPT_NO = C.OPT_NO
+		group by 
+		        TO_CHAR(A.order_create_date,'yy-mm')
+		order by
+		        createDate
+	</select>
+	
+	<delete id="deleteCart" parameterClass="int">
+		delete from CARTS
+		where OPT_NO = #value#
+	</delete>
+	<delete id="deleteCartDetail" parameterClass="int">
+		delete from CARTS
+		where OPT_NO = #value#
+	</delete>
+</sqlMap>

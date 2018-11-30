@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<!-- 게시판 추가 -->
+	<insert id="addItemQuestion" parameterClass="kr.co.team2.vo.ItemQuestion">
+		insert into item_questions
+			(item_question_no,
+			ITEM_QUESTION_TITLE,
+			ITEM_QUESTION_CONTENTS,
+			ITEM_QUESTION_FILENAME,
+			ITEM_QUESTION_PASSWORD,
+			ITEM_QUESTION_SECRET,
+			user_no
+			)
+		values
+			(5,#title#,#contents# ,#filename# ,#password# ,#secret# ,#user.no#)
+	</insert>
+	<!-- 게시판 리스트 -->	
+	<select id="getBoardListAll" resultClass="kr.co.team2.vo.ItemQuestion">
+		 select 
+			i.ITEM_QUESTION_NO				as no,
+			i.ITEM_QUESTION_TITLE			as title,
+			i.ITEM_QUESTION_CONTENTS		as contents,
+			i.ITEM_QUESTION_FILENAME		as filename,
+			i.ITEM_QUESTION_PASSWORD		as password,
+			i.ITEM_QUESTION_SECRET			as secret,
+			u.user_name						as "user.name",
+			i.ITEM_QUESTION_AVAILABLE		as available,
+			i.ITEM_QUESTION_CREATE_DATE 	as createDate
+		from item_questions i , users u 
+		where
+            i.user_no = u.user_no
+            and	upper(i.ITEM_QUESTION_AVAILABLE) = 'Y'
+		order by  i.ITEM_QUESTION_CREATE_DATE desc
+	</select>
+	
+	<select id="getBoardByNo" parameterClass="int" resultClass="kr.co.team2.vo.ItemQuestion">
+		select 
+			i.ITEM_QUESTION_NO				as no,
+			i.ITEM_QUESTION_TITLE			as title,
+			i.ITEM_QUESTION_CONTENTS		as contents,
+			i.ITEM_QUESTION_FILENAME		as filename,
+			i.ITEM_QUESTION_PASSWORD		as password,
+			i.ITEM_QUESTION_SECRET			as secret,
+			u.user_name						as "user.name",
+			i.ITEM_QUESTION_AVAILABLE		as available,
+			i.ITEM_QUESTION_CREATE_DATE 	as createDate
+		from item_questions i , users u 
+		where
+            i.user_no = u.user_no
+            and	upper(i.ITEM_QUESTION_AVAILABLE) = 'Y'
+			and i.ITEM_QUESTION_NO = #value#
+	</select>
+
+</sqlMap>

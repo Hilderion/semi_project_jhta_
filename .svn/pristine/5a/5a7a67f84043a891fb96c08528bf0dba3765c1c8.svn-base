@@ -1,0 +1,176 @@
+package kr.co.team2.vo;
+
+import java.util.Date;
+
+public class User {
+
+	private int no;
+	private String id;
+	private String password;
+	private String name;
+	private String gender;
+	private String birthDay;
+	private UserQuestion userQuestion;		//질문
+	private String answer;					//질문답
+	private String address1;
+	private String address2;
+	private String tel;
+	private String phoneTel;				//핸드폰
+	private String snsChecked;				//sns 체크박스
+	private String email;
+	private String emailChecked;			//이메일 체크박스
+	private String foreverChecked;			//평생회원 체크박스
+	private String available;				//회원일 경우 Y , 회원탈퇴시 N 기본값 : 'Y'
+	private Date createDate;
+	
+	public User() {}
+
+	public int getNo() {
+		return no;
+	}
+
+	public void setNo(int no) {
+		this.no = no;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getBirthDay() {
+		return birthDay;
+	}
+
+	public void setBirthDay(String birthDay) {
+		this.birthDay = birthDay;
+	}
+
+	
+
+	public UserQuestion getUserQuestion() {
+		return userQuestion;
+	}
+
+	public void setUserQuestion(UserQuestion userQuestion) {
+		this.userQuestion = userQuestion;
+	}
+
+	public String getAvailable() {
+		return available;
+	}
+
+	public void setAvailable(String available) {
+		this.available = available;
+	}
+
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public String getTel() {
+		return tel;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
+
+	public String getPhoneTel() {
+		return phoneTel;
+	}
+
+	public void setPhoneTel(String phoneTel) {
+		this.phoneTel = phoneTel;
+	}
+
+	public String getSnsChecked() {
+		return snsChecked;
+	}
+
+	public void setSnsChecked(String snsChecked) {
+		this.snsChecked = snsChecked;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getEmailChecked() {
+		return emailChecked;
+	}
+
+	public void setEmailChecked(String emailChecked) {
+		this.emailChecked = emailChecked;
+	}
+
+	public String getForeverChecked() {
+		return foreverChecked;
+	}
+
+	public void setForeverChecked(String foreverChecked) {
+		this.foreverChecked = foreverChecked;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	
+	
+	
+}

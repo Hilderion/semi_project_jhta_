@@ -1,0 +1,25 @@
+package kr.co.team2.service.admin;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.co.team2.dao.UserDao;
+import kr.co.team2.dao.adminUserDao;
+import kr.co.team2.vo.User;
+
+public class adminUserService {
+
+	adminUserDao userDao = adminUserDao.getInstance();
+
+	public List<User> getAllUsers() throws SQLException {
+		return userDao.getAllUsers();
+	}
+	
+	public User usergetUserByNo(int userNo) throws SQLException{ 
+		return userDao.getUserByNo(userNo);
+	}
+	
+	public void updateUser(User user) throws SQLException {
+		userDao.updateUser(user);
+	}
+}

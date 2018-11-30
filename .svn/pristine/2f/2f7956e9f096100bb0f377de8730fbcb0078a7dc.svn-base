@@ -1,0 +1,163 @@
+package kr.co.team2.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.JSONView;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.jhta.mvc.servlet.RedirectView;
+import kr.co.team2.dao.ReviewDao;
+import kr.co.team2.vo.AllReviews;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.PhotoReviews;
+import kr.co.team2.vo.Review;
+
+@Controller
+public class ReviewController {
+
+	@RequestMapping("/reviews/allreview.do")
+	public ModelAndView allReview(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		ModelAndView mav = new ModelAndView();
+		ReviewDao reviewDao = ReviewDao.getInstance();
+		
+		List<AllReviews> allReviews = reviewDao.getAllAllReviews();
+		
+		for(AllReviews allReview : allReviews) {
+			
+			// 리뷰 점수가 높은 3개를 뽑는다
+			List<Review> reviews = reviewDao.getAllReviewsByItemNoTop3(allReview.getNo());
+			
+			// 리뷰 내용이 15자가 넘어가면 줄여주는 기능
+			for(Review review : reviews) {
+				String content = review.getContents();
+				if(content.length() > 15) {
+					content = content.substring(0,15);
+					String colons = "...";
+					content += colons;
+					review.setContents(content);
+				}
+			}
+			
+
+			allReview.setReviews(reviews);
+		}
+		request.setAttribute("allReviews", allReviews);
+		
+		mav.setViewName("reviews/allreview.jsp");
+		return mav;
+		
+	}
+
+	@RequestMapping("/reviews/bestreview.do")
+	public ModelAndView bestReview(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("reviews/bestreview.jsp");
+		return mav;
+		
+	}
+	
+	
+	public ModelAndView photoReview(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		ReviewDao reviewDao = ReviewDao.getInstance();
+		
+		// 모든 포토 리뷰 조회
+		List<Review> photoReviews = reviewDao.getAllPhotoReviews();
+		
+		// 리뷰 내용이 15자가 넘어가면 줄여주는 기능
+		for(Review review : photoReviews) {
+			String content = review.getContents();
+			
+			if(content.length() > 15) {
+				content = content.substring(0,15);
+				String colons = "...";
+				content += colons;
+				review.setContents(content);
+			}
+			
+		}
+		
+		request.setAttribute("photoReviews", photoReviews);
+		
+		mav.setViewName("reviews/photoreview.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/reviews/photoreview.do")
+	public ModelAndView getAllofPhotoReviews(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		ReviewDao reviewDao = ReviewDao.getInstance();
+		
+		// 모든 포토 리뷰 조회
+		List<PhotoReviews> photoReviews = reviewDao.getAllofPhotoReviews();
+		
+		// 리뷰 내용이 15자가 넘어가면 줄여주는 기능
+		for(PhotoReviews reviews : photoReviews) {
+			String content = reviews.getContents();
+			
+			if(content.length() > 15) {
+				content = content.substring(0,15);
+				String colons = "...";
+				content += colons;
+				reviews.setContents(content);
+			}
+			
+			Item item = reviewDao.getItemByReviewNo(reviews.getNo());
+			reviews.setItem(item);
+		}
+		
+		request.setAttribute("photoReviews", photoReviews);
+		
+		mav.setViewName("reviews/photoreview.jsp");
+		return mav;
+	}
+	
+
+	
+	
+	/*
+	@RequestMapping("/reviews/detail.do")
+	public ModelAndView photoReviewDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		ReviewDao reviewDao = ReviewDao.getInstance();
+		
+		int reviewNo = Integer.parseInt(request.getParameter("reviewNo"));
+		// AJAX 데이터 추가
+		
+		mav.addAttribute("reviewJSON", reviewDao.getPhotoReviewsByNo(reviewNo));
+		mav.setView(new JSONView());
+		
+		return mav;
+	}
+	*/
+	
+	@RequestMapping("/reviews/detail.do")
+	public ModelAndView photoReviewDetail2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		ReviewDao reviewDao = ReviewDao.getInstance();
+		
+		int reviewNo = Integer.parseInt(request.getParameter("reviewNo"));
+		
+		AllReviews allReviews =  reviewDao.getAllReviewByReviewNo(reviewNo);
+		List<Review> reviews = new ArrayList<>();
+		reviews.add(reviewDao.getPhotoReviewsByNo(reviewNo));
+		allReviews.setReviews(reviews);
+		
+		mav.addAttribute("reviewJSON", allReviews);
+		mav.setView(new JSONView());
+		
+		return mav;
+	}
+
+}

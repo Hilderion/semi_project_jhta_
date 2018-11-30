@@ -1,0 +1,17 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+
+public class test {
+
+	public static void main(String[] args) throws SQLException {
+		
+		
+			String a = (String) SqlMapClientUtil.getSqlMapClient().queryForObject("getQuestionTypeByNo",1);
+			System.out.println(a);
+	}
+	
+	
+}

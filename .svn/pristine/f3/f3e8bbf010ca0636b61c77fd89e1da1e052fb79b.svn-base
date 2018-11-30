@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<select id="" parameterClass="" resultClass="">
+		select
+			order_no
+			order_state
+			order_crate_date
+			
+	</select>
+</sqlMap>
+    

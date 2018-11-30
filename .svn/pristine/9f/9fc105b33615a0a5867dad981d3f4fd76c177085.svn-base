@@ -1,0 +1,237 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link
+	href="../../../../resources/admin/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link
+	href="../../../../resources/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link
+	href="../../../../resources/admin/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+<link href="../../../../resources/admin/css/sb-admin.css" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700,800&amp;subset=korean" rel="stylesheet">
+	
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.js"></script>
+
+
+</head>
+<body>
+	<%@include file="../include/header.jsp"%>
+	<div id="content-wrapper" style="width: 1000px;">
+
+		<div class="container-fluid">
+
+			<!-- Breadcrumbs-->
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">상품관리</a></li>
+				<li class="breadcrumb-item active">상품등록</li>
+			</ol>
+
+			<!-- DataTables Example -->
+			<div class="card mb-3 ">
+				<div class="card-header bg-secondary text-white">
+					<i class="fas fa-table"></i> 새로운 상품을 등록하세요!
+				</div>
+				<div class="card-body">
+					<form>
+						<div class="form-group ">
+
+
+
+							<div class="form-row">
+								<div class="col-md-12">
+									<p class="card-title">
+										<i class="fas fa-caret-square-right"></i> 카테고리를 입력하세요.<span
+											class="text-danger">(필수)</span>
+									</p>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-sm-4">
+									<select class="form-control">
+										<option>카테고리</option>
+									</select>
+								</div>
+								<div class="col-sm-4">
+									<select class="form-control" disabled>
+										<option>카테고리</option>
+									</select>
+								</div>
+							</div>
+							<hr>
+
+
+
+							<div class="form-row">
+								<div class="col-md-12">
+									<p class="card-title">
+										<i class="fas fa-tshirt"></i> 상품 이름을 입력하세요.<span
+											class="text-danger">(필수)</span>
+									</p>
+								</div>
+							</div>
+							<div class="form-row">
+								<div class="col-md-12">
+									<div class="form-label-group">
+										<input type="text" id="firstName" class="form-control"
+											placeholder="상품 이름을 입력하세요." required="required"
+											autofocus="autofocus"> <label for="firstName">예)
+											플라워 미니 원피스, 원피스 1위</label>
+									</div>
+									<hr>
+
+
+
+
+
+									<div class="form-item">
+										<label for=""><i class="fas fa-keyboard"></i> 게시글 등록</label>
+											
+											 <div id="summernote"></div>
+
+									</div>
+									<hr>
+								</div>
+								<div class="col-md-12">
+									<form class=""></form>
+								</div>
+							</div>
+						</div>
+
+
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<p class="card-title">
+									<i class="fas fa-won-sign"></i> 판매가<span class="text-danger">(필수)</span>
+								</p>
+							</div>
+						</div>
+						<div class="form-row">
+							<div width="200px">
+								<div class="form-label-group">
+									<input type="text" id="price" class="form-control"
+										placeholder="예)32,000" required="required"
+										autofocus="autofocus" style="max-width: 200px"> <label
+										for="price">예) 32,000</label>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<h2>
+									<i class="fas fa-won-sign"></i>
+								</h2>
+							</div>
+						</div>
+						<hr>
+
+
+						<div class="form-row">
+							<div class="col-md-12">
+								진열상태 <input type="radio">상품 진열 <input type="radio">상품
+								진열안함
+							</div>
+							<div class="col-md-12">
+								판매상태 <input type="radio">상품 판매 <input type="radio">상품
+								판매안함
+							</div>
+						</div>
+						<hr>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<p class="card-title">
+									<i class="fas fa-won-sign"></i>옵션/재고
+								</p>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-md-3">
+								<div class="form-label-group">
+									<input type="text" id="size" class="form-control"
+										placeholder="예)32,000" required="required"
+										autofocus="autofocus"> <label for="size"><small>색상
+											입력</small></label>
+								</div>
+							</div>
+							<h1>></h1>
+							<div class="col-md-3">
+								<div class="form-label-group">
+									<input type="text" id="color" class="form-control"
+										placeholder="예)32,000" required="required"
+										autofocus="autofocus"> <label for="color"><small>사이즈
+											입력</small></label>
+								</div>
+							</div>
+							<h1>></h1>
+							<div class="col-md-3">
+								<div class="form-label-group">
+									<input type="number" id="stock" class="form-control"
+										placeholder="예)32,000" required="required"
+										autofocus="autofocus"> <label for="stock"><small>재고
+											입력</small></label>
+								</div>
+							</div>
+							<button class="btn btn-primary col-md-1" onclick="">추가</button>
+
+						</div>
+						<hr>
+
+						<div class="form-row">
+							<div class="col-md-12">
+								<p class="card-title">
+									<i class="fas fa-won-sign"></i> 대표 사진 등록<span
+										class="text-danger">(필수)</span>
+								</p>
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="col-md-12">
+								권장이미지 : 500px * 500px / 5M 이하 / gif, png, jpg(jpeg) <input
+									type="file" class="form-control">
+							</div>
+						</div>
+						<hr>
+						<div class="form-row">
+							<button class="btn btn-primary col-md-">상품 저장</button>
+						</div>
+					</form>
+					<div class="text-center">
+						<a class="d-block small mt-3" href="login.html">Login Page</a> <a
+							class="d-block small" href="forgot-password.html">Forgot
+							Password?</a>
+					</div>
+				</div>
+				<div class="card-footer small text-muted">Updated yesterday at
+					11:59 PM</div>
+			</div>
+
+
+
+
+
+		</div>
+	</div>
+	<!--컨테이너 끝-->
+
+
+	 <script>
+	      $('#summernote').summernote({
+	        placeholder: '상품 페이지에 등록될 이미지와 글을 작성하세요.',
+	        tabsize: 2,
+	        height: 600
+  	    });
+	      
+    </script>
+	<%@include file="../include/footer.jsp"%>
+	<!-- 게시판 에디터 -->
+</body>
+</html>

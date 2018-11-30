@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<select id="getOrderSearch" parameterClass="int" resultClass="kr.co.team2.vo.orders">
+		select
+			order_no			as no,
+			order_state			as state,
+			order_create_date	as createDate,
+		from
+			
+		where	
+	</select>
+</sqlMap>
+    

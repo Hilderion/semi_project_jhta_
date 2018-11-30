@@ -1,0 +1,24 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.Orders;
+
+public class orderSearchDao {
+	private static orderSearchDao self = new orderSearchDao();
+	private orderSearchDao () {}
+	public static orderSearchDao getInstance() {
+		return self;
+	}
+	
+	public List<Orders> getOrderSearch(int no) throws SQLException {
+		SqlMapClient sqlMapClient = SqlMapClientUtil.getSqlMapClient();
+		List<Orders> orders = sqlMapClient.queryForList("getOrderSearch", no);
+		
+		return orders;
+	}
+}

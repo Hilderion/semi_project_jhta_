@@ -1,0 +1,50 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ibatis.sqlmap.client.SqlMapClient;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.Item;
+import kr.co.team2.vo.Option;
+
+public class ItemDao {
+
+	private static ItemDao self = new ItemDao();
+	private ItemDao() {}
+	public static ItemDao getInstance() {
+		return self;
+	}
+	
+	// 카테고리 상위번호로 제품 조회
+	@SuppressWarnings("unchecked")
+	public List<Item> getItemsByCategoryNo() throws SQLException {
+		SqlMapClient sqlMapClient = SqlMapClientUtil.getSqlMapClient();
+		List<Item> items = sqlMapClient.queryForList("getItemsByCategoryNo");
+		return items;
+	}
+	
+	@SuppressWarnings("unchecked")
+	// 상세 제품 확인하기 
+	public List<Item> getItemsByDetailNo() throws SQLException {
+		SqlMapClient sqlMapClient = SqlMapClientUtil.getSqlMapClient();
+		List<Item> items = sqlMapClient.queryForList("getItemsByDetailNo");
+		return items;
+	}
+	
+	// 디테일 화면에서 아이템 번호로 상품 이름, 상품 가격 조회
+	public Item getItemByItemNo() throws SQLException {
+		SqlMapClient sqlMapClient = SqlMapClientUtil.getSqlMapClient();
+		Item item = (Item)sqlMapClient.queryForObject("getItemByItemNo");
+		return item;
+	}
+	
+	// 디테일 화면에서 아이템 번호로 해당 상품 옵션들 조회
+	@SuppressWarnings("unchecked")
+	public List<Option> getItemOptionByItemNo() throws SQLException {
+		SqlMapClient sqlMapClient = SqlMapClientUtil.getSqlMapClient();
+		List<Option> options = sqlMapClient.queryForList("getItemOptionByItemNo");
+		return options;
+	}
+}

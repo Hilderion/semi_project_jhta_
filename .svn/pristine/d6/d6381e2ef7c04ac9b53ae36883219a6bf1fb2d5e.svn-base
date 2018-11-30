@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<insert id = "saveUser" parameterClass="kr.co.team2.vo.User">
+		insert into users USER_QUESTION_NO
+			(user_no, user_id, user_password, user_name, user_gender, USER_BIRTHDAY, question_no, user_answer, USER_ADDRESS1, USER_ADDRESS2,
+			 user_tel, user_phone, user_sns_checked, user_email, user_email_checked, user_forever)
+		values
+			(user_no_seq.nextval, #id#, #password#, #name#, #gender#, #birthDay#,#userQuestion.no#, #answer#, #address1#, #address2#, #tel#, #phoneTel#,
+			 #snsChecked#, #email#, #emailChecked#, #foreverChecked#)
+	</insert>
+	
+	
+	<select id="UserQuestionByDb" resultClass="kr.co.team2.vo.UserQuestion">
+		select 
+			QUESTION_NO as no,
+			QUESTION_TEXT as textQustion
+		from 
+			USER_QUESTIONS
+	</select>
+	
+	<select id="getUserById" parameterClass="string" resultClass="kr.co.team2.vo.User">
+		SELECT
+			USER_ID as id,
+			USER_PASSWORD as password,
+			USER_NAME as name,
+			USER_BIRTHDAY as birthDay,
+			USER_ADDRESS1 as address1,
+			USER_ADDRESS2 as address2,
+			USER_TEL as tel,
+			USER_PHONE as phoneTel,
+			USER_EMAIL as email,
+			USER_AVAILABLE as available,
+			USER_CREATE_DATE as createDate
+		FROM
+			USERS
+		WHERE
+			user_id = #value#
+		and
+			USER_AVAILABLE = 'Y'
+	</select>
+</sqlMap>
+  	

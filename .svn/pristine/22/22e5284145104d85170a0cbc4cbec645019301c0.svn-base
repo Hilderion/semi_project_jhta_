@@ -1,0 +1,33 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.Review;
+
+public class ReviewDao {
+
+	private static ReviewDao self = new ReviewDao();
+	private ReviewDao() {}
+	public static ReviewDao getInstance() {return self;}
+	
+	@SuppressWarnings("unchecked")
+	public List<Review> getAllPhotoReviews() throws SQLException {
+		List<Review> reviews = (List<Review>)SqlMapClientUtil.getSqlMapClient().queryForList("getAllPhotoReviews");
+		return reviews;
+	}
+	
+	public Review getPhotoReviewsByNo(Integer reviewNo) throws SQLException {
+		Review review = (Review)SqlMapClientUtil.getSqlMapClient().queryForObject("getPhotoReviewsByNo",reviewNo);
+		return review;
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Review> getAllAllReviews(int itemNo) throws SQLException {
+		List<Review> reviews = (List<Review>)SqlMapClientUtil.getSqlMapClient().queryForList("getAllAllReviews",itemNo);
+		return reviews;
+	}
+	
+}

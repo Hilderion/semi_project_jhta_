@@ -1,0 +1,154 @@
+package kr.co.team2.controller;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.UserDao;
+import kr.co.team2.vo.User;
+import kr.co.team2.vo.UserQuestion;
+
+@Controller
+public class UserController {
+
+	@RequestMapping("/users/registerform.do")
+	public ModelAndView register(HttpServletRequest request, HttpServletResponse response) 
+			throws Exception {
+		UserDao userDao = UserDao.getInstance();
+		List<UserQuestion> userQuestions = userDao.UserQuestionByDb();
+		System.out.println("registerform() 메소드 실행됨");
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("userQuestions", userQuestions);
+		mav.setViewName("users/registerform.jsp");
+		
+		
+		return mav;
+	}
+	
+	@RequestMapping("/users/loginform.do")
+	public ModelAndView loginmodal(HttpServletRequest request, HttpServletResponse response)
+		throws Exception {
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("users/loginform.jsp");
+		return mav;
+	}
+	
+	@RequestMapping("/users/login.do")
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response)
+		throws Exception {
+		
+		String id = request.getParameter("member_id");
+		String password = request.getParameter("password");
+		
+		UserDao userDao = UserDao.getInstance();
+		User user = userDao.getUserById(id);
+		
+		ModelAndView mav = new ModelAndView();
+
+		if (user == null) {
+			mav.setViewName("redirect:registerform.do");
+			return mav;
+			
+		}
+		
+		if (!user.getPassword().equals(password)) {
+			mav.setViewName("redirect:loginform.do?fail=login");
+			return mav;
+		}
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("LOGIN_USER_INFO", user);
+		
+		mav.setViewName("redirect:http://localhost/home.do");
+		return mav;
+	}
+	
+	@RequestMapping("/users/logout.do")
+	public ModelAndView logout(HttpServletRequest request, HttpServletResponse response)
+		throws Exception {
+		
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/home.do");
+		return mav;
+	}
+	
+	
+	@RequestMapping("/users/register.do")
+	public ModelAndView saveUser(HttpServletRequest request, HttpServletResponse response) 
+			throws Exception {
+		
+		String id = request.getParameter("member_id");
+		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		String gender = "M";
+		String birthDay = "10-22";
+		int questionNo = Integer.parseInt(request.getParameter("question"));
+		String answer = request.getParameter("answer");
+		String address1 = request.getParameter("addr1");
+		String address2 = request.getParameter("addr2");
+		String tel1 = request.getParameter("phone1");
+		String tel2 = request.getParameter("phone2");
+		String tel3 = request.getParameter("phone3");
+		String tel = tel1+"-"+tel2+"-"+tel3;
+		String phoneTel1 = request.getParameter("mobile1");
+		String phoneTel2 = request.getParameter("mobile2");
+		String phoneTel3 = request.getParameter("mobile3");
+		String phoneTel = phoneTel1+"-"+phoneTel2+"-"+phoneTel3;
+		String snsChecked = request.getParameter("sns");
+		String email1 = request.getParameter("email1");
+		String email2 = request.getParameter("email2");
+		String email = email1+"@"+email2;
+		String emailChecked = request.getParameter("newsmail");
+		String foreverChecked = request.getParameter("lifetime");
+		
+		User user = new User();
+		UserQuestion userQuestion = new UserQuestion();
+		user.setId(id);
+		user.setPassword(password);
+		user.setName(name);
+		user.setGender(gender);
+		user.setBirthDay(birthDay);
+		/*user.setUserQuestion(userQuestion);*/
+		user.setAnswer(answer);
+		user.setAddress1(address1);
+		user.setAddress2(address2);
+		user.setTel(tel);
+		user.setPhoneTel(phoneTel);
+		user.setSnsChecked(snsChecked);
+		user.setEmail(email);
+		user.setEmailChecked(emailChecked);
+		user.setForeverChecked(foreverChecked);
+		userQuestion.setNo(questionNo);
+		user.setUserQuestion(userQuestion);
+		UserDao userDao = UserDao.getInstance();
+		userDao.saveUser(user);
+		
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:completed.do");
+		return mav;
+		
+	}
+
+	@RequestMapping("/users/completed.do")
+	public ModelAndView complete(HttpServletRequest request, HttpServletResponse response) 
+			throws  Exception {
+		
+		System.out.println("completed() 메소드 실행됨.");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("users/completed.jsp");
+		
+		return mav;
+	}
+	
+	
+}

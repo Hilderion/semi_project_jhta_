@@ -1,0 +1,96 @@
+package kr.co.team2.controller;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.google.common.collect.Sets.SetView;
+
+import kr.co.jhta.mvc.annotation.Controller;
+import kr.co.jhta.mvc.annotation.RequestMapping;
+import kr.co.jhta.mvc.servlet.ModelAndView;
+import kr.co.team2.dao.CartDao;
+import kr.co.team2.vo.Item;
+
+@Controller
+public class CartController {
+
+	
+	
+	@RequestMapping("/carts/cart.do")
+	public ModelAndView cartCheck(HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		
+		/*
+		 * 메인페이지에서 장바구니를 클릭시 이쪽페이지로이동한다.
+		 * 이쪽페이지에서 쿠키를 사용해서 쿠키 안에 데이터가 비어 있으면
+		 * 
+		 * if(세션이 없을때){ 
+		 * 		if(쿠키가 비면){
+		 * 			mav.setViewName(/carts/cart-empty.do);
+		 * 		} else { 쿠키가 비어 있지않으면}
+		 * 			mav.setViewName(/carts/cart-order.do?type=cookie);
+		 * 	}else if(세션이 있을때){
+		 * 		세션에 잇는 정보를 통해 user_no를 가지고 와서 db에 있는 cart를 찾는다.
+		 * 		if( 해당 유저에 대한 cart의 정보가 있으면){
+		 * 			mav.setView(/carts/cart-order.do?type=db);
+		 * 		else if(정보가 없으면){
+		 * 			mav.setView(/carts/cart-empty.do)
+		 * 			
+		 * 		}
+		 * return 
+		 * */
+		
+		/*if () {
+			if(Item.isEmpty) {
+				mav.setView("/carts/cart-empty.do");
+			} else {
+				mav.setView("/carts/cart-order.do?type=db");
+			}
+		}
+		*/
+		
+		
+		ModelAndView mav = new ModelAndView();
+		return mav;
+	}
+	
+	
+	@RequestMapping("/carts/cart-empty.do")
+	public ModelAndView cartEmpty (HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		int cartId = Integer.parseInt(request.getParameter("cartId"));
+		CartDao cartDao = CartDao.getInstance();
+		List<Item> items = cartDao.getCart(cartId);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("items", items);
+		mav.setViewName("carts/cart-empty.jsp");
+		
+		return mav;
+		
+	}
+	
+	@RequestMapping("/carts/cart-order.do")
+	public ModelAndView cartOrder (HttpServletRequest request, HttpServletResponse response) throws SQLException {
+		int cartId = Integer.parseInt(request.getParameter("cartId"));
+		CartDao cartDao = CartDao.getInstance();
+		List<Item> items = cartDao.getCart(cartId);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.addAttribute("items", items);
+		mav.setViewName("carts/cart-order.jsp");
+		
+		return mav;
+	}
+	
+}
+
+/*List<Item> items = cartDao.getCart(cartId);
+if (Item.isempty) {
+	mav.setViewName("cart-empty.jsp");
+} else {
+	mav.setViewName("cart-order.jsp");
+}
+*/
+

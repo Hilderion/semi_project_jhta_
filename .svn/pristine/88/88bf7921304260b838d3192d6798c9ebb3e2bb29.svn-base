@@ -1,0 +1,62 @@
+package kr.co.team2.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import kr.co.team2.utils.SqlMapClientUtil;
+import kr.co.team2.vo.ItemQuestion;
+import kr.co.team2.vo.ItemQuestionComment;
+import kr.co.team2.vo.ItemQuestionType;
+
+public class ItemQuestionDao {
+	private static ItemQuestionDao self = new ItemQuestionDao();
+	private ItemQuestionDao() {}
+	public static ItemQuestionDao getInstance() {
+		return self;
+	}
+	
+	
+	//게시판 추가
+	public void addItemQuestion(ItemQuestion item) throws SQLException {
+		SqlMapClientUtil.getSqlMapClient().insert("addItemQuestion",item);
+	}
+	
+	//게시판 리스트 보이게
+	public List<ItemQuestion> getBoardListAll() throws SQLException {
+		List<ItemQuestion> boards = (List<ItemQuestion>)SqlMapClientUtil.getSqlMapClient().queryForList("getBoardListAll");
+		return boards;
+	}
+	
+	//게시판 글 얻기
+	public ItemQuestion getBoardByNo(int boardno) throws SQLException {
+		ItemQuestion board = (ItemQuestion)SqlMapClientUtil.getSqlMapClient().queryForObject("getBoardByNo", boardno);
+		return board;
+	}
+
+	public List<ItemQuestionType> getquestionByCategoryType() throws SQLException{
+		List<ItemQuestionType> types = (List<ItemQuestionType>)SqlMapClientUtil.getSqlMapClient().queryForList("getquestionByCategoryType");
+		return types;
+	}
+	
+	//댓글
+	public List<ItemQuestionComment> getItemQuestionComment() throws SQLException {
+		List<ItemQuestionComment> comments = (List<ItemQuestionComment>)SqlMapClientUtil.getSqlMapClient().queryForList("getItemQuestionComment");
+		return comments;
+	}
+	public void addItemQuestionComment(ItemQuestionComment comment) throws SQLException {
+		// TODO Auto-generated method stub
+		SqlMapClientUtil.getSqlMapClient().insert("addItemQuestionComment",comment);
+		
+	}
+	public int getCommentCount() throws SQLException {
+		// TODO Auto-generated method stub
+		int commentCount = (Integer)SqlMapClientUtil.getSqlMapClient().queryForObject("getCommentCount");
+		
+		return commentCount;
+	}
+	public void UpdateItemQuestion(ItemQuestion itemQuestion) throws SQLException {
+		// TODO Auto-generated method stub
+		SqlMapClientUtil.getSqlMapClient().update("updateItemQuestion",itemQuestion);
+	}
+	
+}
